@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZARA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #fff;
+            color: #000;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 8px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 15px;
+            background: #f8f8f8;
+            border-radius: 4px;
+        }
+
+        .search-bar input {
+            border: none;
+            background: none;
+            outline: none;
+            font-size: 13px;
+            width: 200px;
+        }
+
+        .header-links {
+            display: flex;
+            gap: 20px;
+            font-size: 12px;
+        }
+
+        .header-links a {
+            text-decoration: none;
+            color: #000;
+        }
+
+        .icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            padding: 40px 20px;
+        }
+
+        .product-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 60vh;
+            position: relative;
+        }
+
+        .product-image {
+            max-width: 400px;
+            width: 100%;
+            height: auto;
+        }
+
+        .nav-arrow {
+            position: absolute;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Navigation Menu */
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #000;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #666;
+        }
+
+        /* Help Button */
+        .help-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #000;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: transform 0.3s;
+        }
+
+        .help-button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .search-bar {
+                display: none;
+            }
+            
+            nav {
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+
+            .product-image {
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <button class="menu-icon">☰</button>
+            <div class="logo">ZARA</div>
+        </div>
+        
+        <div class="header-right">
+            <div class="search-bar">
+                <span>🔍</span>
+                <input type="text" placeholder="SEARCH">
+            </div>
+            
+            <div class="header-links">
+                <a href="#">LOG IN</a>
+                <a href="#">HELP</a>
+            </div>
+            
+            <div class="icons">
+                <button class="icon-btn">👤</button>
+                <button class="icon-btn">🛍️</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="product-container">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='450' viewBox='0 0 300 450'%3E%3Crect fill='%23f5f5f5' width='300' height='450'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='16' fill='%23999'%3E데님 점프수트%3C/text%3E%3C/svg%3E" 
+                 alt="Denim Jumpsuit" 
+                 class="product-image">
+            
+            <button class="nav-arrow">MAN ›</button>
+        </div>
+    </main>
+
+    <nav>
+        <a href="#">ELE TOP</a>
+        <a href="#">THE ZARA REISSUE 27 ZARA</a>
+        <a href="#">NEW</a>
+        <a href="#">TRF | WE:BRIDGE</a>
+        <a href="#">COLLECTION</a>
+        <a href="#">BASICS</a>
+        <a href="#">BEAUTY</a>
+        <a href="#">SHOES</a>
+        <a href="#">WEAR TO WORK</a>
+        <a href="#">LINGERIE</a>
+    </nav>
+
+    <button class="help-button">?</button>
+
+    <script>
+        // Simple interactions
+        document.querySelector('.menu-icon').addEventListener('click', () => {
+            alert('메뉴가 열립니다');
+        });
+
+        document.querySelector('.help-button').addEventListener('click', () => {
+            alert('도움말 센터');
+        });
+    </script>
+</body>
+</html>
