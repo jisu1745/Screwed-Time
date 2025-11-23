@@ -1,4 +1,40 @@
 <!DOCTYPE html>
+/* ───────── 양옆 여백 최소화 버전 ───────── */
+
+.page {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 100px 0 120px; /* 좌우 여백 제거 */
+  position: relative;
+}
+
+/* 텍스트 블록(서문/섹션) — 더 넓게 펼쳐짐 */
+.panel-inner {
+  width: 100%;
+  max-width: 1080px;   /* 이전보다 훨씬 넓게 */
+  margin: 0 auto;       /* 중앙 정렬 유지 */
+}
+
+/* 모든 본문 텍스트는 양끝정렬 */
+.panel-inner p,
+.panel-heading {
+  text-align: justify;
+  text-justify: inter-character;
+}
+
+/* 인트로 서문 */
+.intro-sub {
+  text-align: justify;
+}
+
+/* 모바일 대응 */
+@media (max-width: 700px) {
+  .page {
+    padding: 80px 0 100px;
+  }
+  .panel-inner {
+    max-width: 92vw;
+  }
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
