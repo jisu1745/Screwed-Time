@@ -13,6 +13,7 @@
       padding: 0;
       background: #ffffff;
       color: #111;
+      /* ★ 맨 위 제목과 같은 산세리프로 전체 통일 */
       font-family: "Helvetica Neue", Arial, "Noto Sans KR", sans-serif;
       line-height: 1.6;
     }
@@ -24,7 +25,7 @@
       position: relative;
     }
 
-    /* ===== HERO SECTION (맨 위 ELF 느낌) ===== */
+    /* ===== HERO SECTION ===== */
     .hero {
       height: 100vh;
       min-height: 600px;
@@ -38,7 +39,7 @@
 
     .hero-top-row {
       display: flex;
-      justify-content: space-between;
+      justify-content: space-between; /* 제목 왼쪽 / 언어 오른쪽: 양끝 배치 */
       align-items: flex-start;
       font-size: 14px;
       letter-spacing: 0.08em;
@@ -131,14 +132,16 @@
     .text-layer {
       position: relative;
       z-index: 1;
-      font-family: "Times New Roman", "Noto Serif KR", serif;
       margin-top: 40px;
+      /* ★ 여기서도 별도 폰트 지정하지 않고 상단과 동일한 산세리프 사용 */
     }
 
     section.panel {
       min-height: 80vh;
       display: flex;
       align-items: center;
+      opacity: 0.1;
+      transition: opacity 0.6s ease;
     }
 
     section.panel-inner {
@@ -172,18 +175,29 @@
       margin-bottom: 4em;
     }
 
-    /* 패널 페이드인 */
-    .panel {
-      opacity: 0.1;
-      transition: opacity 0.6s ease;
+    /* ★ 전시 서문(첫 패널) 중앙 정렬 */
+    section.panel.intro-panel {
+      text-align: center;
     }
+    section.panel.intro-panel p {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ★ 나머지 패널 텍스트 양끝 정렬 */
+    section.panel:not(.intro-panel) p,
+    section.panel:not(.intro-panel) .panel-heading {
+      text-align: justify;
+      text-justify: inter-character;
+    }
+
     .panel.active {
       opacity: 1;
     }
 
     @media (max-width: 900px) {
       .hero-left-menu {
-        display: none; /* 모바일에선 메뉴 감춰도 됨 */
+        display: none;
       }
       .hero-logo {
         position: absolute;
@@ -222,7 +236,6 @@
       </div>
 
       <div class="hero-blob-wrap">
-        <!-- ELF 느낌의 큰 검정 유기적 형태 이미지 -->
         <img src="images/hero-blob.png" alt="craft as verb hero shape" />
         <div class="hero-click">SCROLL</div>
       </div>
@@ -245,10 +258,11 @@
       <img id="mainImage" src="images/stone1.png" alt="screw object" />
     </div>
 
-    <!-- 아래부터는 스크롤되는 텍스트 + 이미지 전환 -->
+    <!-- 스크롤 텍스트 -->
     <div class="text-layer">
 
-      <section class="panel active" data-image="images/stone1.png">
+      <!-- ★ 전시 서문: 중앙 정렬 intro-panel 클래스 추가 -->
+      <section class="panel intro-panel active" data-image="images/stone1.png">
         <div class="panel-inner">
           <h1 class="intro-title">Screwed Time: 공예, 동사의 상태</h1>
           <p class="intro-sub">
