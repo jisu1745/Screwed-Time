@@ -1,258 +1,308 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Craft as Verb: A Screw</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <title>Screwed Time – 행동으로서의 공예</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      color: #111;
+      font-family: "Times New Roman", "Noto Serif KR", serif;
+      line-height: 1.6;
+    }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-            background: #fff;
-            color: #000;
-        }
+    /* 전체 레이아웃 */
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 60px 32px 120px;
+      position: relative;
+    }
 
-        /* Header */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: #fff;
-            z-index: 100;
-        }
+    /* 중앙 이미지 (돌/나사) */
+    .image-layer {
+      position: fixed;
+      left: 50%;
+      top: 52%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      pointer-events: none;
+      mix-blend-mode: multiply;
+    }
+    .image-layer img {
+      width: 320px;
+      max-width: 60vw;
+      transition: opacity 0.5s ease;
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3));
+    }
+    .image-layer img.fade-out {
+      opacity: 0;
+    }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
+    /* 텍스트 영역 */
+    .text-layer {
+      position: relative;
+      z-index: 1;
+      font-size: 18px;
+    }
 
-        .menu-icon {
-            font-size: 24px;
-            cursor: pointer;
-            border: none;
-            background: none;
-        }
+    .intro-title {
+      font-size: 34px;
+      margin-bottom: 0.5em;
+      letter-spacing: 0.03em;
+    }
+    .intro-sub {
+      font-size: 20px;
+      margin-bottom: 4em;
+    }
 
-        .logo {
-            font-size: 32px;
-            font-weight: bold;
-            letter-spacing: 8px;
-        }
+    section.panel {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+    }
+    section.panel-inner {
+      width: 100%;
+    }
 
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-        }
+    section.panel p {
+      max-width: 40em;
+      font-size: 20px;
+    }
 
-        .search-bar {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 15px;
-            background: #f8f8f8;
-            border-radius: 4px;
-        }
+    /* 강조 텍스트 */
+    em.keyword {
+      font-style: normal;
+      font-weight: 700;
+    }
 
-        .search-bar input {
-            border: none;
-            background: none;
-            outline: none;
-            font-size: 13px;
-            width: 200px;
-        }
+    /* 섹션별로 살짝 다른 느낌 */
+    .panel-heading {
+      font-size: 26px;
+      margin-bottom: 0.75em;
+      font-weight: 700;
+    }
 
-        .header-links {
-            display: flex;
-            gap: 20px;
-            font-size: 12px;
-        }
+    /* 스크롤 시 텍스트 페이드인 효과 */
+    .panel {
+      opacity: 0.1;
+      transition: opacity 0.6s ease;
+    }
+    .panel.active {
+      opacity: 1;
+    }
 
-        .header-links a {
-            text-decoration: none;
-            color: #000;
-        }
-
-        .icons {
-            display: flex;
-            gap: 15px;
-        }
-
-        .icon-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 18px;
-        }
-
-        /* Main Content */
-        main {
-            margin-top: 80px;
-            padding: 40px 20px;
-        }
-
-        .product-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 60vh;
-            position: relative;
-        }
-
-        .product-image {
-            max-width: 400px;
-            width: 100%;
-            height: auto;
-        }
-
-        .nav-arrow {
-            position: absolute;
-            right: 40px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            color: #666;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        /* Navigation Menu */
-        nav {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            padding: 20px;
-            margin-top: 40px;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #000;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: #666;
-        }
-
-        /* Help Button */
-        .help-button {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: #000;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            transition: transform 0.3s;
-        }
-
-        .help-button:hover {
-            transform: scale(1.1);
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .search-bar {
-                display: none;
-            }
-            
-            nav {
-                flex-wrap: wrap;
-                gap: 20px;
-            }
-
-            .product-image {
-                max-width: 300px;
-            }
-        }
-    </style>
+    @media (max-width: 700px) {
+      .intro-title {
+        font-size: 26px;
+      }
+      section.panel p {
+        font-size: 17px;
+      }
+      .image-layer img {
+        width: 240px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="header-left">
-            <button class="menu-icon">☰</button>
-            <div class="logo">Craft as Verb: A Screw</div>
+  <div class="page">
+    <!-- 가운데 떠 있는 이미지 -->
+    <div class="image-layer">
+      <!-- 최초 이미지: stone1.png -->
+      <img id="mainImage" src="images/stone1.png" alt="screw object" />
+    </div>
+
+    <!-- 스크롤되는 텍스트 -->
+    <div class="text-layer">
+
+      <!-- 인트로 -->
+      <section class="panel active" data-image="images/stone1.png">
+        <div class="panel-inner">
+          <h1 class="intro-title">Screwed Time: 공예, 동사의 상태</h1>
+          <p class="intro-sub">
+            이 전시는 내가 앞으로 이어갈 ‘공예란 무엇인가’에 대한 탐구 시리즈의 첫 번째 프로젝트다.
+            그 시작을 상징하는 재료는 <em class="keyword">나사(A Screw)</em>다.
+          </p>
+          <p>
+            그동안 나사는 구조를 결합하기 위한 기능적 부속물,
+            즉 보이지 않는 곳에 숨어 있는 ‘도구’의 영역에 머물러 왔다.
+            그러나 이번 작업에서 나는 이 나사를 그 익숙한 맥락에서 분리시키고,
+            오히려 공예적 탐구의 핵심 재료로 재배치하는 실험을 시도한다.
+          </p>
         </div>
-        
-        <div class="header-right">
-            <div class="search-bar">
-                <span>🔍</span>
-                <input type="text" placeholder="SEARCH">
-            </div>
-            
-            <div class="header-links">
-                <a href="#">LOG IN</a>
-                <a href="#">HELP</a>
-            </div>
-            
-            <div class="icons">
-                <button class="icon-btn">👤</button>
-                <button class="icon-btn">🛍️</button>
-            </div>
+      </section>
+
+      <!-- 재료의 전환 -->
+      <section class="panel" data-image="images/stone2.png">
+        <div class="panel-inner">
+          <h2 class="panel-heading">도구에서 재료로</h2>
+          <p>
+            이 전환은 단순히 재료만 바꾸는 것이 아니다.
+            우리가 공예에서 당연하게 받아들여온 <em class="keyword">재료의 위계와 인식 구조</em> 자체를 흔드는 행위다.
+          </p>
+          <p>
+            기능을 위해 존재하던 부품이 재료로 다시 세워지는 순간,
+            공예는 새로운 질문을 맞이한다.
+            ‘재료란 무엇인가?’
+            ‘행위는 어디에서 시작되는가?’
+            ‘공예를 규정하는 기준은 무엇인가?’
+          </p>
         </div>
-    </header>
+      </section>
 
-    <main>
-        <div class="product-container">
-            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='450' viewBox='0 0 300 450'%3E%3Crect fill='%23f5f5f5' width='300' height='450'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='16' fill='%23999'%3E데님 점프수트%3C/text%3E%3C/svg%3E" 
-                 alt="Denim Jumpsuit" 
-                 class="product-image">
-            
-            <button class="nav-arrow">MAN ›</button>
+      <!-- 공예를 동사로 보기 -->
+      <section class="panel" data-image="images/stone3.png">
+        <div class="panel-inner">
+          <h2 class="panel-heading">공예는 결과가 아닌 행동인가</h2>
+          <p>
+            우리는 공예를 말할 때, 너무 쉽게 형태·기술·재료의 아름다움을 떠올린다.
+            그러나 공예의 본질은 완성된 결과보다 그 이전에 존재하는
+            <em class="keyword">행동</em>에 더 가까울지 모른다.
+          </p>
+          <p>
+            이 전시는 바로 그 질문에서 출발한다.
+            “공예는 무엇을 만들어내는가?”가 아니라,
+            “공예는 <em class="keyword">어떤 행동으로</em> 구성되는가?”
+          </p>
         </div>
-    </main>
+      </section>
 
-    <nav>
-        <a href="#">ELE TOP</a>
-        <a href="#">Craft as Verb: A Screw</a>
-        <a href="#">NEW</a>
-        <a href="#">TRF | WE:BRIDGE</a>
-        <a href="#">COLLECTION</a>
-        <a href="#">BASICS</a>
-        <a href="#">BEAUTY</a>
-        <a href="#">SHOES</a>
-        <a href="#">WEAR TO WORK</a>
-        <a href="#">LINGERIE</a>
-    </nav>
+      <!-- 나사의 일곱 가지 행동 -->
+      <section class="panel" data-image="images/stone4.png">
+        <div class="panel-inner">
+          <h2 class="panel-heading">나사의 일곱 가지 행동</h2>
+          <p>
+            전시의 중심에는 나사의 일곱 가지 행동이 있다.
+            나사는 떨어지고, 던져지고, 흔들리고, 긁히고, 두드려지고, 박힌다.
+          </p>
+          <p>
+            이 움직임들은 단순한 물리적 현상이 아니라,
+            공예가 스스로를 다시 정의하기 위해 반드시 통과해야 하는
+            <em class="keyword">개념적 동사들</em>이다.
+          </p>
+        </div>
+      </section>
 
-    <button class="help-button">?</button>
+      <!-- 동사 키워드 -->
+      <section class="panel" data-image="images/stone5.png">
+        <div class="panel-inner">
+          <h2 class="panel-heading">일곱 개의 동사</h2>
+          <p>
+            <strong>탈피하다</strong> — 기존 체제를 깨뜨리고 새로운 껍질로 나아가기<br/>
+            <strong>질문하다</strong> — 공예의 전제를 향해 근원적 물음을 던지기<br/>
+            <strong>교란하다</strong> — 고정된 의미와 관계를 흔들어 재배치하기<br/>
+            <strong>탐색하다</strong> — 재료의 반응을 듣고 길을 더듬기<br/>
+            <strong>두드리다</strong> — 공명하며 재료의 경계를 발견하기<br/>
+            <strong>상처내다</strong> — 파괴를 통해 다른 면을 드러내기<br/>
+            <strong>박제하다</strong> — 과정의 흔적을 하나의 결론으로 남기기
+          </p>
+        </div>
+      </section>
 
-    <script>
-        // Simple interactions
-        document.querySelector('.menu-icon').addEventListener('click', () => {
-            alert('메뉴가 열립니다');
-        });
+      <!-- 소리와 악보 -->
+      <section class="panel" data-image="images/stone6.png">
+        <div class="panel-inner">
+          <h2 class="panel-heading">행동의 소리, 소리의 악보</h2>
+          <p>
+            나는 이 일곱 가지 ‘행동의 순간’에서 발생한 소리를 채집하여
+            이를 기반으로 <em class="keyword">구체음악(musique concrète)</em>을 제작했고,
+            각 행동의 강도·질감·리듬을 기호로 번역한
+            <em class="keyword">새로운 악보 시스템</em>을 만들었다.
+          </p>
+          <p>
+            즉, 나사의 행동은 소리로, 소리는 기호로, 기호는 다시 구조로 환원되며
+            공예의 행위를 음악적 언어로 확장한다.
+          </p>
+        </div>
+      </section>
 
-        document.querySelector('.help-button').addEventListener('click', () => {
-            alert('도움말 센터');
-        });
-    </script>
+      <!-- 공예를 명사에서 동사로 -->
+      <section class="panel" data-image="images/stone7.png">
+        <div class="panel-inner">
+          <h2 class="panel-heading">공예, 명사에서 동사로</h2>
+          <p>
+            이를 통해 공예는 더 이상 명사가 아니다.
+            형태도, 기법도, 장식도 아니다.
+          </p>
+          <p>
+            공예는 연속된 동작들의 집합,
+            즉 <em class="keyword">행위로서의 사고이자 감각적 구성</em>이다.
+            나사의 작은 움직임들은 우리가 당연하게 여겨온 재료와 공예의 경계를 흔들며,
+            ‘부품이 재료가 될 때’ 벌어지는 감각적·개념적 변화를 드러낸다.
+          </p>
+        </div>
+      </section>
+
+      <!-- 마지막 초대 문장 -->
+      <section class="panel" data-image="images/stone3.png">
+        <div class="panel-inner">
+          <h2 class="panel-heading">일곱 개의 질문, 일곱 개의 음악</h2>
+          <p>
+            이 전시는 공예의 본질을 다시 묻기 위한 작은 실험이다.
+            여기서 공예는 완성보다 의심, 아름다움보다 과정,
+            기술보다 행동에 가까운 무엇이 된다.
+          </p>
+          <p>
+            당신이 지금 마주하게 될 것은
+            사소한 나사가 던지는 일곱 개의 질문이자,
+            행동이 소리로, 소리가 기호로 변환되며
+            공예의 미래를 다시 바라보게 만드는
+            <em class="keyword">일곱 개의 행동의 음악</em>이다.
+          </p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script>
+    const panels = document.querySelectorAll(".panel");
+    const mainImage = document.getElementById("mainImage");
+
+    function updateOnScroll() {
+      const mid = window.innerHeight * 0.5;
+      let currentPanel = null;
+
+      panels.forEach(panel => {
+        const rect = panel.getBoundingClientRect();
+        const isInMiddle = rect.top <= mid && rect.bottom >= mid;
+        if (isInMiddle) {
+          currentPanel = panel;
+        }
+      });
+
+      if (currentPanel) {
+        // 텍스트 투명도 조정
+        panels.forEach(p => p.classList.remove("active"));
+        currentPanel.classList.add("active");
+
+        // 이미지 교체
+        const newSrc = currentPanel.getAttribute("data-image");
+        if (newSrc && !mainImage.src.includes(newSrc)) {
+          mainImage.classList.add("fade-out");
+          const handle = () => {
+            mainImage.removeEventListener("transitionend", handle);
+            mainImage.src = newSrc;
+            // 다음 프레임에서 다시 보이게
+            requestAnimationFrame(() => {
+              mainImage.classList.remove("fade-out");
+            });
+          };
+          mainImage.addEventListener("transitionend", handle);
+        }
+      }
+    }
+
+    document.addEventListener("scroll", updateOnScroll);
+    window.addEventListener("load", updateOnScroll);
+    window.addEventListener("resize", updateOnScroll);
+  </script>
 </body>
 </html>
