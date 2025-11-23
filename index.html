@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>Screwed Time – 행동으로서의 공예</title>
+  <title>Craft as verb: A screw</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     * {
@@ -13,19 +13,94 @@
       padding: 0;
       background: #ffffff;
       color: #111;
-      font-family: "Times New Roman", "Noto Serif KR", serif;
+      font-family: "Helvetica Neue", Arial, "Noto Sans KR", sans-serif;
       line-height: 1.6;
     }
 
-    /* 전체 레이아웃 */
     .page {
-      max-width: 960px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 60px 32px 120px;
+      padding: 0 32px 120px;
       position: relative;
     }
 
-    /* 중앙 이미지 (돌/나사) */
+    /* ===== HERO SECTION (맨 위 ELF 느낌) ===== */
+    .hero {
+      height: 100vh;
+      min-height: 600px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding-top: 40px;
+      padding-bottom: 40px;
+    }
+
+    .hero-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+    }
+
+    .hero-title {
+      font-size: 28px;
+      text-transform: uppercase;
+    }
+
+    .hero-lang {
+      font-size: 14px;
+    }
+
+    .hero-bottom-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 16px;
+      font-size: 12px;
+    }
+
+    .hero-left-menu {
+      font-size: 18px;
+      line-height: 1.4;
+    }
+
+    .hero-left-menu span {
+      display: block;
+    }
+
+    .hero-logo {
+      text-align: left;
+      font-size: 14px;
+      letter-spacing: 0.2em;
+    }
+
+    .hero-blob-wrap {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 70%;
+      max-width: 900px;
+      pointer-events: none;
+    }
+
+    .hero-blob-wrap img {
+      width: 100%;
+      display: block;
+    }
+
+    .hero-click {
+      position: absolute;
+      right: 16%;
+      bottom: 22%;
+      font-size: 14px;
+      color: #ffffff;
+      letter-spacing: 0.12em;
+    }
+
+    /* ===== 가운데 고정 나사 이미지 ===== */
     .image-layer {
       position: fixed;
       left: 50%;
@@ -34,32 +109,30 @@
       z-index: 10;
       pointer-events: none;
       mix-blend-mode: multiply;
+      transition: opacity 0.4s ease;
     }
+
+    .image-layer.hidden {
+      opacity: 0;
+    }
+
     .image-layer img {
       width: 320px;
       max-width: 60vw;
       transition: opacity 0.5s ease;
       filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3));
     }
+
     .image-layer img.fade-out {
       opacity: 0;
     }
 
-    /* 텍스트 영역 */
+    /* ===== 텍스트 패널 ===== */
     .text-layer {
       position: relative;
       z-index: 1;
-      font-size: 18px;
-    }
-
-    .intro-title {
-      font-size: 34px;
-      margin-bottom: 0.5em;
-      letter-spacing: 0.03em;
-    }
-    .intro-sub {
-      font-size: 20px;
-      margin-bottom: 4em;
+      font-family: "Times New Roman", "Noto Serif KR", serif;
+      margin-top: 40px;
     }
 
     section.panel {
@@ -67,6 +140,7 @@
       display: flex;
       align-items: center;
     }
+
     section.panel-inner {
       width: 100%;
     }
@@ -76,20 +150,29 @@
       font-size: 20px;
     }
 
-    /* 강조 텍스트 */
-    em.keyword {
-      font-style: normal;
-      font-weight: 700;
-    }
-
-    /* 섹션별로 살짝 다른 느낌 */
     .panel-heading {
       font-size: 26px;
       margin-bottom: 0.75em;
       font-weight: 700;
     }
 
-    /* 스크롤 시 텍스트 페이드인 효과 */
+    em.keyword {
+      font-style: normal;
+      font-weight: 700;
+    }
+
+    .intro-title {
+      font-size: 34px;
+      margin-bottom: 0.5em;
+      letter-spacing: 0.03em;
+    }
+
+    .intro-sub {
+      font-size: 20px;
+      margin-bottom: 4em;
+    }
+
+    /* 패널 페이드인 */
     .panel {
       opacity: 0.1;
       transition: opacity 0.6s ease;
@@ -98,7 +181,25 @@
       opacity: 1;
     }
 
+    @media (max-width: 900px) {
+      .hero-left-menu {
+        display: none; /* 모바일에선 메뉴 감춰도 됨 */
+      }
+      .hero-logo {
+        position: absolute;
+        left: 0;
+        bottom: 40px;
+      }
+      .hero-click {
+        bottom: 18%;
+        right: 12%;
+      }
+    }
+
     @media (max-width: 700px) {
+      .page {
+        padding: 0 20px 100px;
+      }
       .intro-title {
         font-size: 26px;
       }
@@ -113,16 +214,40 @@
 </head>
 <body>
   <div class="page">
-    <!-- 가운데 떠 있는 이미지 -->
-    <div class="image-layer">
-      <!-- 최초 이미지: stone1.png -->
+    <!-- HERO SECTION -->
+    <header class="hero" id="hero">
+      <div class="hero-top-row">
+        <div class="hero-title">Craft as verb: A screw</div>
+        <div class="hero-lang">KR / EN</div>
+      </div>
+
+      <div class="hero-blob-wrap">
+        <!-- ELF 느낌의 큰 검정 유기적 형태 이미지 -->
+        <img src="images/hero-blob.png" alt="craft as verb hero shape" />
+        <div class="hero-click">SCROLL</div>
+      </div>
+
+      <div class="hero-bottom-row">
+        <div class="hero-left-menu">
+          <span>SCREW</span>
+          <span>ACTION</span>
+          <span>SOUND</span>
+          <span>SCORE</span>
+        </div>
+        <div class="hero-logo">
+          CRAFT<br/>AS VERB
+        </div>
+      </div>
+    </header>
+
+    <!-- 가운데 고정 나사 이미지 -->
+    <div class="image-layer hidden" id="imageLayer">
       <img id="mainImage" src="images/stone1.png" alt="screw object" />
     </div>
 
-    <!-- 스크롤되는 텍스트 -->
+    <!-- 아래부터는 스크롤되는 텍스트 + 이미지 전환 -->
     <div class="text-layer">
 
-      <!-- 인트로 -->
       <section class="panel active" data-image="images/stone1.png">
         <div class="panel-inner">
           <h1 class="intro-title">Screwed Time: 공예, 동사의 상태</h1>
@@ -139,7 +264,6 @@
         </div>
       </section>
 
-      <!-- 재료의 전환 -->
       <section class="panel" data-image="images/stone2.png">
         <div class="panel-inner">
           <h2 class="panel-heading">도구에서 재료로</h2>
@@ -157,7 +281,6 @@
         </div>
       </section>
 
-      <!-- 공예를 동사로 보기 -->
       <section class="panel" data-image="images/stone3.png">
         <div class="panel-inner">
           <h2 class="panel-heading">공예는 결과가 아닌 행동인가</h2>
@@ -174,7 +297,6 @@
         </div>
       </section>
 
-      <!-- 나사의 일곱 가지 행동 -->
       <section class="panel" data-image="images/stone4.png">
         <div class="panel-inner">
           <h2 class="panel-heading">나사의 일곱 가지 행동</h2>
@@ -190,7 +312,6 @@
         </div>
       </section>
 
-      <!-- 동사 키워드 -->
       <section class="panel" data-image="images/stone5.png">
         <div class="panel-inner">
           <h2 class="panel-heading">일곱 개의 동사</h2>
@@ -206,7 +327,6 @@
         </div>
       </section>
 
-      <!-- 소리와 악보 -->
       <section class="panel" data-image="images/stone6.png">
         <div class="panel-inner">
           <h2 class="panel-heading">행동의 소리, 소리의 악보</h2>
@@ -223,7 +343,6 @@
         </div>
       </section>
 
-      <!-- 공예를 명사에서 동사로 -->
       <section class="panel" data-image="images/stone7.png">
         <div class="panel-inner">
           <h2 class="panel-heading">공예, 명사에서 동사로</h2>
@@ -240,7 +359,6 @@
         </div>
       </section>
 
-      <!-- 마지막 초대 문장 -->
       <section class="panel" data-image="images/stone3.png">
         <div class="panel-inner">
           <h2 class="panel-heading">일곱 개의 질문, 일곱 개의 음악</h2>
@@ -265,8 +383,20 @@
   <script>
     const panels = document.querySelectorAll(".panel");
     const mainImage = document.getElementById("mainImage");
+    const imageLayer = document.getElementById("imageLayer");
+    const hero = document.getElementById("hero");
 
     function updateOnScroll() {
+      const heroRect = hero.getBoundingClientRect();
+      const heroBottom = heroRect.bottom;
+
+      // 히어로가 보이는 동안에는 가운데 나사 이미지를 숨김
+      if (heroBottom > 80) {
+        imageLayer.classList.add("hidden");
+      } else {
+        imageLayer.classList.remove("hidden");
+      }
+
       const mid = window.innerHeight * 0.5;
       let currentPanel = null;
 
@@ -279,18 +409,15 @@
       });
 
       if (currentPanel) {
-        // 텍스트 투명도 조정
         panels.forEach(p => p.classList.remove("active"));
         currentPanel.classList.add("active");
 
-        // 이미지 교체
         const newSrc = currentPanel.getAttribute("data-image");
         if (newSrc && !mainImage.src.includes(newSrc)) {
           mainImage.classList.add("fade-out");
           const handle = () => {
             mainImage.removeEventListener("transitionend", handle);
             mainImage.src = newSrc;
-            // 다음 프레임에서 다시 보이게
             requestAnimationFrame(() => {
               mainImage.classList.remove("fade-out");
             });
