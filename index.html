@@ -2,106 +2,34 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>Craft as verb: A screw</title>
+  <title>CRAFT AS VERB: A SCREW</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     * {
       box-sizing: border-box;
     }
+
     html, body {
       margin: 0;
       padding: 0;
       background: #ffffff;
       color: #111;
-      /* ★ 맨 위 제목과 같은 산세리프로 전체 통일 */
-      font-family: "Helvetica Neue", Arial, "Noto Sans KR", sans-serif;
+      /* 메인 페이지와 비슷한 산세리프 계열 */
+      font-family: system-ui, -apple-system, BlinkMacSystemFont,
+                   "Segoe UI", Roboto, "Helvetica Neue",
+                   "Noto Sans KR", Arial, sans-serif;
       line-height: 1.6;
     }
 
+    /* 전체 페이지 – 좌우 여백 거의 없음 */
     .page {
-      max-width: 1200px;
+      max-width: 100%;
       margin: 0 auto;
-      padding: 0 32px 120px;
+      padding: 40px 16px 120px; /* 필요하면 16을 0으로 줄여도 됨 */
       position: relative;
     }
 
-    /* ===== HERO SECTION ===== */
-    .hero {
-      height: 100vh;
-      min-height: 600px;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding-top: 40px;
-      padding-bottom: 40px;
-    }
-
-    .hero-top-row {
-      display: flex;
-      justify-content: space-between; /* 제목 왼쪽 / 언어 오른쪽: 양끝 배치 */
-      align-items: flex-start;
-      font-size: 14px;
-      letter-spacing: 0.08em;
-    }
-
-    .hero-title {
-      font-size: 28px;
-      text-transform: uppercase;
-    }
-
-    .hero-lang {
-      font-size: 14px;
-    }
-
-    .hero-bottom-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 16px;
-      font-size: 12px;
-    }
-
-    .hero-left-menu {
-      font-size: 18px;
-      line-height: 1.4;
-    }
-
-    .hero-left-menu span {
-      display: block;
-    }
-
-    .hero-logo {
-      text-align: left;
-      font-size: 14px;
-      letter-spacing: 0.2em;
-    }
-
-    .hero-blob-wrap {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      width: 70%;
-      max-width: 900px;
-      pointer-events: none;
-    }
-
-    .hero-blob-wrap img {
-      width: 100%;
-      display: block;
-    }
-
-    .hero-click {
-      position: absolute;
-      right: 16%;
-      bottom: 22%;
-      font-size: 14px;
-      color: #ffffff;
-      letter-spacing: 0.12em;
-    }
-
-    /* ===== 가운데 고정 나사 이미지 ===== */
+    /* 중앙 떠 있는 나사/돌 이미지 */
     .image-layer {
       position: fixed;
       left: 50%;
@@ -110,161 +38,109 @@
       z-index: 10;
       pointer-events: none;
       mix-blend-mode: multiply;
-      transition: opacity 0.4s ease;
     }
-
-    .image-layer.hidden {
-      opacity: 0;
-    }
-
     .image-layer img {
       width: 320px;
       max-width: 60vw;
       transition: opacity 0.5s ease;
       filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3));
     }
-
     .image-layer img.fade-out {
       opacity: 0;
     }
 
-    /* ===== 텍스트 패널 ===== */
     .text-layer {
       position: relative;
       z-index: 1;
-      margin-top: 40px;
-      /* ★ 여기서도 별도 폰트 지정하지 않고 상단과 동일한 산세리프 사용 */
+      font-size: 18px;
     }
 
+    /* 각 섹션의 텍스트 박스: 중앙 정렬된 칸 */
+    .panel-inner {
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;  /* 가운데 위치 */
+    }
+
+    /* 인트로(전시 서문) 섹션 */
+    section.panel.intro-panel {
+      text-align: center;
+    }
+    .intro-title {
+      font-size: 32px;
+      margin-bottom: 0.75em;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .intro-sub {
+      font-size: 18px;
+      margin-bottom: 3em;
+    }
+
+    /* 패널 기본 설정 */
     section.panel {
       min-height: 80vh;
       display: flex;
       align-items: center;
-      opacity: 0.1;
+      opacity: 0.12;
       transition: opacity 0.6s ease;
     }
-
-    section.panel-inner {
-      width: 100%;
-    }
-
-    section.panel p {
-      max-width: 40em;
-      font-size: 20px;
-    }
-
-    .panel-heading {
-      font-size: 26px;
-      margin-bottom: 0.75em;
-      font-weight: 700;
-    }
-
-    em.keyword {
-      font-style: normal;
-      font-weight: 700;
-    }
-
-    .intro-title {
-      font-size: 34px;
-      margin-bottom: 0.5em;
-      letter-spacing: 0.03em;
-    }
-
-    .intro-sub {
-      font-size: 20px;
-      margin-bottom: 4em;
-    }
-
-    /* ★ 전시 서문(첫 패널) 중앙 정렬 */
-    section.panel.intro-panel {
-      text-align: center;
-    }
-    section.panel.intro-panel p {
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* ★ 나머지 패널 텍스트 양끝 정렬 */
-    section.panel:not(.intro-panel) p,
-    section.panel:not(.intro-panel) .panel-heading {
-      text-align: justify;
-      text-justify: inter-character;
-    }
-
     .panel.active {
       opacity: 1;
     }
 
-    @media (max-width: 900px) {
-      .hero-left-menu {
-        display: none;
-      }
-      .hero-logo {
-        position: absolute;
-        left: 0;
-        bottom: 40px;
-      }
-      .hero-click {
-        bottom: 18%;
-        right: 12%;
-      }
+    /* 본문 텍스트는 양끝정렬 */
+    .panel-inner p {
+      text-align: justify;
+      text-justify: inter-character;
+      margin-top: 0;
+    }
+
+    .panel-heading {
+      font-size: 22px;
+      margin-bottom: 0.75em;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-align: justify;
+      text-justify: inter-character;
+    }
+
+    em.keyword {
+      font-style: normal;
+      font-weight: 600;
     }
 
     @media (max-width: 700px) {
-      .page {
-        padding: 0 20px 100px;
-      }
       .intro-title {
-        font-size: 26px;
+        font-size: 24px;
       }
-      section.panel p {
-        font-size: 17px;
+      .panel-inner {
+        max-width: 94vw;
       }
       .image-layer img {
         width: 240px;
+      }
+      .panel-inner p {
+        font-size: 16px;
       }
     }
   </style>
 </head>
 <body>
   <div class="page">
-    <!-- HERO SECTION -->
-    <header class="hero" id="hero">
-      <div class="hero-top-row">
-        <div class="hero-title">Craft as verb: A screw</div>
-        <div class="hero-lang">KR / EN</div>
-      </div>
 
-      <div class="hero-blob-wrap">
-        <img src="images/hero-blob.png" alt="craft as verb hero shape" />
-        <div class="hero-click">SCROLL</div>
-      </div>
-
-      <div class="hero-bottom-row">
-        <div class="hero-left-menu">
-          <span>SCREW</span>
-          <span>ACTION</span>
-          <span>SOUND</span>
-          <span>SCORE</span>
-        </div>
-        <div class="hero-logo">
-          CRAFT<br/>AS VERB
-        </div>
-      </div>
-    </header>
-
-    <!-- 가운데 고정 나사 이미지 -->
-    <div class="image-layer hidden" id="imageLayer">
+    <!-- 가운데 떠 있는 이미지 -->
+    <div class="image-layer">
       <img id="mainImage" src="images/stone1.png" alt="screw object" />
     </div>
 
-    <!-- 스크롤 텍스트 -->
     <div class="text-layer">
 
-      <!-- ★ 전시 서문: 중앙 정렬 intro-panel 클래스 추가 -->
+      <!-- 인트로 / 전시 서문 -->
       <section class="panel intro-panel active" data-image="images/stone1.png">
         <div class="panel-inner">
-          <h1 class="intro-title">Screwed Time: 공예, 동사의 상태</h1>
+          <h1 class="intro-title">CRAFT AS VERB: A SCREW</h1>
           <p class="intro-sub">
             이 전시는 내가 앞으로 이어갈 ‘공예란 무엇인가’에 대한 탐구 시리즈의 첫 번째 프로젝트다.
             그 시작을 상징하는 재료는 <em class="keyword">나사(A Screw)</em>다.
@@ -278,6 +154,7 @@
         </div>
       </section>
 
+      <!-- 재료의 전환 -->
       <section class="panel" data-image="images/stone2.png">
         <div class="panel-inner">
           <h2 class="panel-heading">도구에서 재료로</h2>
@@ -295,9 +172,10 @@
         </div>
       </section>
 
+      <!-- 재료의 위계 흔들기 -->
       <section class="panel" data-image="images/stone3.png">
         <div class="panel-inner">
-          <h2 class="panel-heading">공예는 결과가 아닌 행동인가</h2>
+          <h2 class="panel-heading">재료의 위계 흔들기</h2>
           <p>
             우리는 공예를 말할 때, 너무 쉽게 형태·기술·재료의 아름다움을 떠올린다.
             그러나 공예의 본질은 완성된 결과보다 그 이전에 존재하는
@@ -311,6 +189,7 @@
         </div>
       </section>
 
+      <!-- 나사의 일곱 가지 행동 -->
       <section class="panel" data-image="images/stone4.png">
         <div class="panel-inner">
           <h2 class="panel-heading">나사의 일곱 가지 행동</h2>
@@ -326,6 +205,7 @@
         </div>
       </section>
 
+      <!-- 동사 키워드 -->
       <section class="panel" data-image="images/stone5.png">
         <div class="panel-inner">
           <h2 class="panel-heading">일곱 개의 동사</h2>
@@ -341,25 +221,36 @@
         </div>
       </section>
 
+      <!-- 감각의 위계 -->
       <section class="panel" data-image="images/stone6.png">
         <div class="panel-inner">
-          <h2 class="panel-heading">행동의 소리, 소리의 악보</h2>
+          <h2 class="panel-heading">감각의 위계</h2>
           <p>
-            나는 이 일곱 가지 ‘행동의 순간’에서 발생한 소리를 채집하여
-            이를 기반으로 <em class="keyword">구체음악(musique concrète)</em>을 제작했고,
-            각 행동의 강도·질감·리듬을 기호로 번역한
-            <em class="keyword">새로운 악보 시스템</em>을 만들었다.
-          </p>
-          <p>
-            즉, 나사의 행동은 소리로, 소리는 기호로, 기호는 다시 구조로 환원되며
-            공예의 행위를 음악적 언어로 확장한다.
+  공예가 시각적 아름다움 중심으로 규정되어 온 것은 오랫동안 지속된 감각의 위계와도 깊이 연결되어 있다.
+  우리는 공예를 바라볼 때 주로 형태와 표면, 즉 보는 감각을 먼저 떠올린다.
+  그러나 공예의 핵심은 사실 시각에 국한되지 않으며, 촉각·청각·리듬·저항감처럼
+  몸 전체가 감지하는 복합적 감각의 층위로 이루어져 있다.
+</p>
+
+<p>
+  이번 프로젝트에서는 이러한 감각의 위계를 전환하기 위해,
+  공예를 시각에서 청각으로 이동시키는 실험을 시도했다.
+  나사가 떨어지고, 굴러가고, 흔들리고, 긁히는 행위에서 발생한 소리를 채집해
+  이를 기반으로 <em class="keyword">구체음악(musique concrète)</em>을 제작했고,
+  각 행동의 질감·강도·리듬을 기호로 번역한 <em class="keyword">새로운 악보 시스템</em>을 구축했다.
+</p>
+
+<p>
+  이 작업은 공예가 특정 감각에 종속된 영역이 아니라,
+  다양한 감각이 서로 교차하며 만들어지는 과정 자체임을 드러낸다.
           </p>
         </div>
       </section>
 
+      <!-- 공예, 명사에서 동사로 -->
       <section class="panel" data-image="images/stone7.png">
         <div class="panel-inner">
-          <h2 class="panel-heading">공예, 명사에서 동사로</h2>
+          <h2 class="panel-heading">부품이 재료가 될 때</h2>
           <p>
             이를 통해 공예는 더 이상 명사가 아니다.
             형태도, 기법도, 장식도 아니다.
@@ -373,6 +264,7 @@
         </div>
       </section>
 
+      <!-- 마지막 문단 -->
       <section class="panel" data-image="images/stone3.png">
         <div class="panel-inner">
           <h2 class="panel-heading">일곱 개의 질문, 일곱 개의 음악</h2>
@@ -397,29 +289,15 @@
   <script>
     const panels = document.querySelectorAll(".panel");
     const mainImage = document.getElementById("mainImage");
-    const imageLayer = document.getElementById("imageLayer");
-    const hero = document.getElementById("hero");
 
     function updateOnScroll() {
-      const heroRect = hero.getBoundingClientRect();
-      const heroBottom = heroRect.bottom;
-
-      // 히어로가 보이는 동안에는 가운데 나사 이미지를 숨김
-      if (heroBottom > 80) {
-        imageLayer.classList.add("hidden");
-      } else {
-        imageLayer.classList.remove("hidden");
-      }
-
       const mid = window.innerHeight * 0.5;
       let currentPanel = null;
 
       panels.forEach(panel => {
         const rect = panel.getBoundingClientRect();
         const isInMiddle = rect.top <= mid && rect.bottom >= mid;
-        if (isInMiddle) {
-          currentPanel = panel;
-        }
+        if (isInMiddle) currentPanel = panel;
       });
 
       if (currentPanel) {
