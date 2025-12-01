@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Screwed Time Intro</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #000;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* A버전: 원이 줄어들며 사라지는 효과 */
+      clip-path: circle(100% at 50% 50%);
+      transition: clip-path 1s ease;
+    }
+
+    body.reveal-circle {
+      clip-path: circle(0% at 50% 50%);
+    }
+
+    #container {
+      width: 600px;
+      height: 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #screws {
+      width: 100%;
+      height: auto;
+    }
+
+    #left, #right {
+      transform-box: fill-box;     /* SVG 안에서 기준 */
+      transform-origin: 50% 50%;   /* 중심 회전 */
+      transition: transform 0.02s linear;
+    }
+
+    /* C 버전 때 씌울 WebGL 캔버스 */
+    #curlCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      display: none;           /* 필요할 때만 보이게 */
+      pointer-events: none;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <svg id="screws" viewBox="0 0 400 200">
+      <!-- 왼쪽 나사 -->
+      <image href="screw.png" id="left" x="0" y="0" width="200" height="200" />
+      <!-- 오른쪽 나사 -->
+      <image href="screw.png" id="right" x="200" y="0" width="200" height="200" />
+    </svg>
+  </div>
+
+  <!-- C 버전용 WebGL 캔버스 (나중에 활성화) -->
+  <canvas id="curlCanvas"></canvas>
+
+  <script>
+    // -----------------------------
+    // 공통: 나사 자동 회전 + 드래그 회전
+    // -----------------------------
+    const left  = document.getElementById("left");
+    const right = document.getElementById("right");
+
+    let autoRotation = true;
+    let angleLeft = 0;
+    let angleRight = 0;
+
+    function updateRotation() {
+      left.style.transform  = `rotate(${angleLeft}deg)`;
+      right.style.transform = `rotate(${angleRight}deg)`;
+    }
+
+    function rotateAuto() {
+      if (autoRotation) {
+        angleLeft  += 0.2;   // 시계 방향
+        angleRight -= 0.2;   // 반시계 방향
+        updateRotation();
+      }
+      requestAnimationFrame(rotateAuto);
+    }
+    rotateAuto();
+
+    let dragging = false;
+    let lastX = 0;
+    let dragAccum = 0;  // 얼마나 많이 돌렸는지 축적
+
+    const activateThreshold = 500; // 이 값 이상이면 페이지 진입
+
+    document.addEventListener("mousedown", (e) => {
+      dragging = true;
+      autoRotation = false;
+      lastX = e.clientX;
+      dragAccum = 0;
+    });
+
+    document.addEventListener("mouseup", () => {
+      dragging = false;
+      autoRotation = true;
+
+      if (Math.abs(dragAccum) > activateThreshold) {
+        // 👉 여기서 A 버전 or C 버전 중 하나 호출
+        triggerPageRevealCircle();       // A 버전
+        // triggerPageRevealCurl();     // C 버전 쓰고싶으면 이 줄로 교체
+      }
+    });
+
+    document.addEventListener("mousemove", (e) => {
+      if (!dragging) return;
+      const delta = e.clientX - lastX;
+      lastX = e.clientX;
+
+      angleLeft  += delta * 0.7;
+      angleRight -= delta * 0.7;
+      dragAccum  += delta;
+
+      updateRotation();
+    });
+
+    // -----------------------------
+    // A 버전: clip-path 원 수축 효과
+    // -----------------------------
+    function triggerPageRevealCircle() {
+      document.body.classList.add("reveal-circle");
+      setTimeout(() => {
+        window.location.href = "https://jisu1745.github.io/Screwed-Time/";
+      }, 900);
+    }
+
+    // -----------------------------
+    // C 버전: WebGL 페이지 말림 효과 (초안)
+    // -----------------------------
+    // 나중에 Three.js 로직을 여기서 실행
+    function triggerPageRevealCurl() {
+      startCurlAnimation(() => {
+        window.location.href = "https://jisu1745.github.io/Screwed-Time/";
+      });
+    }
+  </script>
+
+  <!-- C 버전용 Three.js (필요할 때만 사용) -->
+  <!-- <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+  <script src="curl.js"></script> -->
+</body>
+</html>
