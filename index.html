@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            overflow: hidden;
+            background: linear-gradient(135deg, #e0e0e0 0%, #d0d0d0 100%);
+        }
+
+        .container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #e0e0e0 0%, #d0d0d0 100%);
+            perspective: 2000px;
+            perspective-origin: center center;
+        }
+
+        .background-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transform-origin: center center;
+            cursor: grab;
+            z-index: 999;
+        }
+
+        .background-wrapper.dragging {
+            cursor: grabbing;
+        }
+
+        /* 추가 그레인 레이어 (더 자연스러운 효과) */
+        .grain-overlay::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><filter id="noise2"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch" seed="2"/></filter><rect width="100%" height="100%" filter="url(%23noise2)" opacity="0.06"/></svg>');
+            background-size: 250px 250px;
+            opacity: 0.4;
+            animation: grainMove2 15s steps(18) infinite reverse;
+            mix-blend-mode: multiply;
+        }
+
+        @keyframes grainMove2 {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            12.5% {
+                transform: translate(5%, -8%) scale(0.97);
+            }
+            25% {
+                transform: translate(-6%, 4%) scale(1.03);
+            }
+            37.5% {
+                transform: translate(8%, 10%) scale(0.99);
+            }
+            50% {
+                transform: translate(-4%, -6%) scale(1.01);
+            }
+            62.5% {
+                transform: translate(7%, 3%) scale(0.98);
+            }
+            75% {
+                transform: translate(-9%, 7%) scale(1.02);
+            }
+            87.5% {
+                transform: translate(3%, -5%) scale(0.99);
+            }
+            100% {
+                transform: translate(-2%, 2%) scale(1);
+            }
+        }
+
+        .background-image {
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        /* 고정 배경 이미지 (website2.png) */
+        .static-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            object-position: center;
+            z-index: 500;
+            pointer-events: none;
+        }
+
+        /* 그레인 효과 오버레이 */
+        .grain-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="5" stitchTiles="stitch" seed="1"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.08"/></svg>');
+            background-size: 200px 200px;
+            opacity: 0.25;
+            pointer-events: none;
+            z-index: 1;
+            animation: grainMove 20s steps(20) infinite;
+            mix-blend-mode: overlay;
+        }
+
+        @keyframes grainMove {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            5% {
+                transform: translate(-2%, -3%) scale(1.01);
+            }
+            10% {
+                transform: translate(-8%, 2%) scale(0.99);
+            }
+            15% {
+                transform: translate(3%, -12%) scale(1.02);
+            }
+            20% {
+                transform: translate(-5%, 8%) scale(0.98);
+            }
+            25% {
+                transform: translate(-12%, -5%) scale(1.01);
+            }
+            30% {
+                transform: translate(7%, 15%) scale(0.99);
+            }
+            35% {
+                transform: translate(-3%, -8%) scale(1.01);
+            }
+            40% {
+                transform: translate(10%, 3%) scale(0.98);
+            }
+            45% {
+                transform: translate(-7%, 12%) scale(1.02);
+            }
+            50% {
+                transform: translate(5%, -10%) scale(0.99);
+            }
+            55% {
+                transform: translate(-10%, 5%) scale(1.01);
+            }
+            60% {
+                transform: translate(8%, 8%) scale(0.98);
+            }
+            65% {
+                transform: translate(-4%, -12%) scale(1.02);
+            }
+            70% {
+                transform: translate(12%, -3%) scale(0.99);
+            }
+            75% {
+                transform: translate(-6%, 10%) scale(1.01);
+            }
+            80% {
+                transform: translate(4%, 6%) scale(0.98);
+            }
+            85% {
+                transform: translate(-9%, -7%) scale(1.02);
+            }
+            90% {
+                transform: translate(6%, 11%) scale(0.99);
+            }
+            95% {
+                transform: translate(-3%, -4%) scale(1.01);
+            }
+            100% {
+                transform: translate(2%, 2%) scale(1);
+            }
+        }
+
+        .menu-button {
+            position: absolute;
+            left: 0;
+            top: 0;
+            cursor: pointer;
+            z-index: 1000;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .menu-button:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        .menu-button:active {
+            transform: scale(0.95);
+        }
+
+        /* 메뉴 버튼 컨테이너 */
+        .menu-buttons-container {
+            position: fixed;
+            left: 240px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 2.5vh;
+            z-index: 1000;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        /* 개별 메뉴 버튼 */
+        .menu-button-item {
+            width: 12vh;
+            height: 12vh;
+            min-width: 240px;
+            min-height: 240px;
+            max-width: 260px;
+            max-height: 260px;
+            cursor: pointer;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            transition: transform 0.3s ease;
+            transform-origin: center;
+        }
+
+        .menu-button-item:hover {
+            transform: scale(1.3);
+        }
+
+        /* 오른쪽 상단 메뉴 컨테이너 */
+        .right-menu-container {
+            position: fixed;
+            right: 240px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 2.5vh;
+            z-index: 1000;
+            align-items: flex-end;
+            justify-content: flex-start;
+        }
+
+        /* 오른쪽 메뉴 버튼 */
+        .right-menu-item {
+            width: 12vh;
+            height: 12vh;
+            min-width: 240px;
+            min-height: 240px;
+            max-width: 260px;
+            max-height: 260px;
+            cursor: pointer;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            transition: transform 0.3s ease;
+            transform-origin: center;
+        }
+
+        .right-menu-item:hover {
+            transform: scale(1.3);
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .menu-buttons-container {
+                left: 160px;
+                gap: 2vh;
+            }
+
+            .menu-button-item {
+                width: 10vh;
+                height: 10vh;
+                min-width: 180px;
+                min-height: 180px;
+                max-width: 200px;
+                max-height: 200px;
+            }
+
+            .right-menu-container {
+                right: 160px;
+                top: 50%;
+                transform: translateY(-50%);
+                gap: 2vh;
+            }
+
+            .right-menu-item {
+                width: 10vh;
+                height: 10vh;
+                min-width: 180px;
+                min-height: 180px;
+                max-width: 200px;
+                max-height: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .menu-buttons-container {
+                left: 120px;
+                gap: 1.5vh;
+            }
+
+            .menu-button-item {
+                width: 8vh;
+                height: 8vh;
+                min-width: 140px;
+                min-height: 140px;
+                max-width: 160px;
+                max-height: 160px;
+            }
+
+            .right-menu-container {
+                right: 120px;
+                top: 50%;
+                transform: translateY(-50%);
+                gap: 1.5vh;
+            }
+
+            .right-menu-item {
+                width: 8vh;
+                height: 8vh;
+                min-width: 140px;
+                min-height: 140px;
+                max-width: 160px;
+                max-height: 160px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="background-wrapper" id="backgroundWrapper">
+            <img src="website.png" alt="Website Background" class="background-image" id="backgroundImage">
+            <div class="grain-overlay"></div>
+        </div>
+        
+        <!-- 고정 배경 이미지 (website2.png) -->
+        <img src="website2.png" alt="Static Background" class="static-background" id="staticBackground">
+        
+        <!-- 메뉴 버튼들 (왼쪽 세로 일렬 배치) -->
+        <div class="menu-buttons-container">
+            <div class="menu-button-item" style="background-image: url('WEBSITE-22.png');" data-menu="menu1" title="메뉴 1"></div>
+            <div class="menu-button-item" style="background-image: url('WEBSITE-23.png');" data-menu="menu2" title="메뉴 2"></div>
+            <div class="menu-button-item" style="background-image: url('WEBSITE-24.png');" data-menu="menu3" title="메뉴 3"></div>
+            <div class="menu-button-item" style="background-image: url('WEBSITE-25.png');" data-menu="menu4" title="메뉴 4"></div>
+            <div class="menu-button-item" style="background-image: url('WEBSITE-26.png');" data-menu="menu5" title="메뉴 5"></div>
+            <div class="menu-button-item" style="background-image: url('WEBSITE-27.png');" data-menu="menu6" title="메뉴 6"></div>
+            <div class="menu-button-item" style="background-image: url('WEBSITE-28.png');" data-menu="menu7" title="메뉴 7"></div>
+        </div>
+
+        <!-- 오른쪽 상단 메뉴 버튼 (website-29.png 기반) -->
+        <div class="right-menu-container">
+            <div class="right-menu-item" style="background-image: url('WEBSITE-29.png');" data-menu="right-menu1" title="오른쪽 메뉴 1"></div>
+        </div>
+    </div>
+
+    <script>
+        const backgroundImage = document.getElementById('backgroundImage');
+        const backgroundWrapper = document.getElementById('backgroundWrapper');
+        const menuButtons = document.querySelectorAll('.menu-button-item');
+        const rightMenuButtons = document.querySelectorAll('.right-menu-item');
+
+        // 드래그 및 확대/축소 변수
+        let isDragging = false;
+        let is3DRotating = false;
+        let startX = 0;
+        let startY = 0;
+        let translateX = 0;
+        let translateY = 0;
+        let rotateX = 0;
+        let rotateY = 0;
+        let scale = 1;
+        let lastScale = 1;
+        const maxRotation = 30; // 최대 회전 각도
+
+        // 메뉴 버튼 영역 확인 함수
+        function isMenuButtonArea(x, y) {
+            const menuContainer = document.querySelector('.menu-buttons-container');
+            if (!menuContainer) return false;
+            const rect = menuContainer.getBoundingClientRect();
+            return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+        }
+
+        // 드래그 시작
+        backgroundWrapper.addEventListener('mousedown', (e) => {
+            // 메뉴 버튼 영역이 아닐 때만 드래그 가능
+            if (!isMenuButtonArea(e.clientX, e.clientY) && 
+                (e.target === backgroundWrapper || e.target === backgroundImage || e.target.classList.contains('grain-overlay'))) {
+                
+                // 스크롤 키(휠 버튼, button 1)를 누른 경우 3D 회전 모드
+                if (e.button === 1 || e.buttons === 4) {
+                    is3DRotating = true;
+                    startX = e.clientX;
+                    startY = e.clientY;
+                } else {
+                    // 일반 드래그 모드
+                    isDragging = true;
+                    backgroundWrapper.classList.add('dragging');
+                    startX = e.clientX - translateX;
+                    startY = e.clientY - translateY;
+                }
+                e.preventDefault();
+            }
+        });
+
+        // 터치 이벤트 (모바일 지원)
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let lastTouchDistance = 0;
+
+        backgroundWrapper.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1 && !isMenuButtonArea(e.touches[0].clientX, e.touches[0].clientY)) {
+                isDragging = true;
+                touchStartX = e.touches[0].clientX - translateX;
+                touchStartY = e.touches[0].clientY - translateY;
+            } else if (e.touches.length === 2) {
+                // 핀치 줌
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                lastTouchDistance = Math.hypot(
+                    touch2.clientX - touch1.clientX,
+                    touch2.clientY - touch1.clientY
+                );
+            }
+            e.preventDefault();
+        });
+
+        backgroundWrapper.addEventListener('touchmove', (e) => {
+            if (e.touches.length === 1 && isDragging) {
+                translateX = e.touches[0].clientX - touchStartX;
+                translateY = e.touches[0].clientY - touchStartY;
+                updateTransform();
+            } else if (e.touches.length === 2) {
+                // 핀치 줌
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                const distance = Math.hypot(
+                    touch2.clientX - touch1.clientX,
+                    touch2.clientY - touch1.clientY
+                );
+                
+                if (lastTouchDistance > 0) {
+                    const scaleChange = distance / lastTouchDistance;
+                    const newScale = Math.max(1, Math.min(5, scale * scaleChange));
+                    scale = newScale;
+                    updateTransform();
+                }
+                lastTouchDistance = distance;
+            }
+            e.preventDefault();
+        });
+
+        backgroundWrapper.addEventListener('touchend', () => {
+            isDragging = false;
+            lastTouchDistance = 0;
+            backgroundWrapper.classList.remove('dragging');
+        });
+
+        // 드래그 중
+        document.addEventListener('mousemove', (e) => {
+            if (is3DRotating) {
+                // 3D 회전 모드
+                const deltaX = e.clientX - startX;
+                const deltaY = e.clientY - startY;
+                
+                rotateY += deltaX * 0.5; // 수평 이동에 따라 Y축 회전
+                rotateX -= deltaY * 0.5; // 수직 이동에 따라 X축 회전
+                
+                // 회전 각도 제한
+                rotateX = Math.max(-maxRotation, Math.min(maxRotation, rotateX));
+                rotateY = Math.max(-maxRotation, Math.min(maxRotation, rotateY));
+                
+                startX = e.clientX;
+                startY = e.clientY;
+                updateTransform();
+            } else if (isDragging) {
+                // 일반 드래그 모드
+                translateX = e.clientX - startX;
+                translateY = e.clientY - startY;
+                updateTransform();
+            }
+        });
+
+        // 드래그 종료
+        document.addEventListener('mouseup', (e) => {
+            if (isDragging) {
+                isDragging = false;
+                backgroundWrapper.classList.remove('dragging');
+            }
+            if (is3DRotating) {
+                is3DRotating = false;
+            }
+        });
+
+        // 스크롤 키 누름 감지 (contextmenu 방지)
+        document.addEventListener('contextmenu', (e) => {
+            if (e.target === backgroundWrapper || e.target === backgroundImage || e.target.classList.contains('grain-overlay')) {
+                e.preventDefault();
+            }
+        });
+
+        // 마우스 휠로 확대/축소
+        backgroundWrapper.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            
+            const delta = e.deltaY > 0 ? -0.1 : 0.1;
+            const newScale = Math.max(1, Math.min(5, scale + delta));
+            
+            if (newScale !== scale) {
+                // 확대/축소 시 마우스 위치를 중심으로
+                const rect = backgroundWrapper.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                const scaleChange = newScale / scale;
+                translateX = x - (x - translateX) * scaleChange;
+                translateY = y - (y - translateY) * scaleChange;
+                
+                scale = newScale;
+                updateTransform();
+            }
+        });
+
+        // 변환 업데이트 함수
+        function updateTransform() {
+            backgroundWrapper.style.transform = `
+                translate(${translateX}px, ${translateY}px) 
+                scale(${scale})
+                rotateX(${rotateX}deg) 
+                rotateY(${rotateY}deg)
+            `;
+        }
+
+        // 각 메뉴 버튼 클릭 이벤트
+        menuButtons.forEach((button, index) => {
+            button.addEventListener('click', function() {
+                const menuId = this.getAttribute('data-menu');
+                console.log(`메뉴 ${index + 1} 클릭됨: ${menuId}`);
+                // 여기에 각 메뉴 버튼의 동작을 추가할 수 있습니다
+                // 예: 페이지 이동, 섹션 표시 등
+            });
+        });
+
+        // 오른쪽 메뉴 버튼 클릭 이벤트
+        rightMenuButtons.forEach((button, index) => {
+            button.addEventListener('click', function() {
+                const menuId = this.getAttribute('data-menu');
+                console.log(`오른쪽 메뉴 ${index + 1} 클릭됨: ${menuId}`);
+                // 여기에 각 오른쪽 메뉴 버튼의 동작을 추가할 수 있습니다
+            });
+        });
+
+        // 이미지 로드 실패 시 처리
+        backgroundImage.addEventListener('error', function() {
+            console.error('이미지를 불러올 수 없습니다. 이미지 경로를 확인해주세요.');
+            backgroundImage.style.display = 'none';
+        });
+
+        // 이미지 크기에 맞춰 컨테이너 높이 조정
+        backgroundImage.addEventListener('load', function() {
+            const img = this;
+            if (img.naturalWidth && img.naturalHeight) {
+                const aspectRatio = img.naturalHeight / img.naturalWidth;
+                const container = document.querySelector('.container');
+                container.style.minHeight = '100vh';
+            }
+        });
+    </script>
+</body>
+</html>
