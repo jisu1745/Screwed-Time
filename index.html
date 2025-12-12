@@ -246,6 +246,8 @@
             background-position: center;
             transition: transform 0.3s ease;
             transform-origin: center;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
         }
 
         .menu-button-item:hover {
@@ -280,6 +282,8 @@
             background-position: center;
             transition: transform 0.3s ease;
             transform-origin: center;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
         }
 
         .right-menu-item:hover {
@@ -355,12 +359,12 @@
 <body>
     <div class="container">
         <div class="background-wrapper" id="backgroundWrapper">
-            <img src="website.png" alt="Website Background" class="background-image" id="backgroundImage">
+            <img src="WEBSITE.png" alt="Website Background" class="background-image" id="backgroundImage">
             <div class="grain-overlay"></div>
         </div>
         
         <!-- 고정 배경 이미지 (website2.png) -->
-        <img src="website2.png" alt="Static Background" class="static-background" id="staticBackground">
+        <img src="WEBSITE2.png" alt="Static Background" class="static-background" id="staticBackground">
         
         <!-- 메뉴 버튼들 (왼쪽 세로 일렬 배치) -->
         <div class="menu-buttons-container">
@@ -575,10 +579,40 @@
             });
         });
 
-        // 이미지 로드 실패 시 처리
+        // 이미지 로드 실패 시 처리 (대소문자 대체 시도)
         backgroundImage.addEventListener('error', function() {
-            console.error('이미지를 불러올 수 없습니다. 이미지 경로를 확인해주세요.');
-            backgroundImage.style.display = 'none';
+            console.warn('이미지 로드 실패, 대체 경로 시도:', this.src);
+            // 소문자로 시도
+            if (this.src.includes('WEBSITE.png')) {
+                this.src = 'website.png';
+            } else if (this.src.includes('WEBSITE2.png')) {
+                this.src = 'website2.png';
+            }
+        });
+
+        const staticBackground = document.getElementById('staticBackground');
+        staticBackground.addEventListener('error', function() {
+            console.warn('고정 배경 이미지 로드 실패, 대체 경로 시도:', this.src);
+            if (this.src.includes('WEBSITE2.png')) {
+                this.src = 'website2.png';
+            }
+        });
+
+        // 모든 메뉴 버튼 이미지 로드 확인
+        const menuItems = document.querySelectorAll('.menu-button-item, .right-menu-item');
+        menuItems.forEach((item, index) => {
+            const bgImage = window.getComputedStyle(item).backgroundImage;
+            const urlMatch = bgImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (urlMatch) {
+                const img = new Image();
+                img.onerror = function() {
+                    console.warn(`메뉴 이미지 로드 실패: ${urlMatch[1]}`);
+                };
+                img.onload = function() {
+                    console.log(`메뉴 이미지 로드 성공: ${urlMatch[1]}`);
+                };
+                img.src = urlMatch[1];
+            }
         });
 
         // 이미지 크기에 맞춰 컨테이너 높이 조정
@@ -588,6 +622,7 @@
                 const aspectRatio = img.naturalHeight / img.naturalWidth;
                 const container = document.querySelector('.container');
                 container.style.minHeight = '100vh';
+                console.log('배경 이미지 로드 완료:', img.naturalWidth, 'x', img.naturalHeight);
             }
         });
     </script>
