@@ -221,12 +221,12 @@
         /* 메뉴 버튼 컨테이너 */
         .menu-buttons-container {
             position: fixed;
-            left: 240px;
+            left: 3%;
             top: 50%;
             transform: translateY(-50%);
             display: flex;
             flex-direction: column;
-            gap: 2.5vh;
+            gap: 40px;
             z-index: 1000;
             align-items: flex-start;
             justify-content: center;
@@ -253,12 +253,12 @@
         /* 오른쪽 상단 메뉴 컨테이너 */
         .right-menu-container {
             position: fixed;
-            right: 240px;
+            right: 3%;
             top: 50%;
             transform: translateY(-50%);
             display: flex;
             flex-direction: column;
-            gap: 2.5vh;
+            gap: 40px;
             z-index: 1000;
             align-items: flex-end;
             justify-content: flex-start;
@@ -285,8 +285,8 @@
         /* 반응형 디자인 */
         @media (max-width: 768px) {
             .menu-buttons-container {
-                left: 160px;
-                gap: 2vh;
+                left: 2%;
+                gap: 30px;
             }
 
             .menu-button-item {
@@ -295,10 +295,10 @@
             }
 
             .right-menu-container {
-                right: 160px;
+                right: 2%;
                 top: 50%;
                 transform: translateY(-50%);
-                gap: 2vh;
+                gap: 30px;
             }
 
             .right-menu-item {
@@ -309,8 +309,8 @@
 
         @media (max-width: 480px) {
             .menu-buttons-container {
-                left: 120px;
-                gap: 1.5vh;
+                left: 1.5%;
+                gap: 25px;
             }
 
             .menu-button-item {
@@ -319,10 +319,10 @@
             }
 
             .right-menu-container {
-                right: 120px;
+                right: 1.5%;
                 top: 50%;
                 transform: translateY(-50%);
-                gap: 1.5vh;
+                gap: 25px;
             }
 
             .right-menu-item {
