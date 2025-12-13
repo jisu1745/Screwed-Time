@@ -1,34 +1,72 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Sequential Score</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { background:#fff; width:100%; height:100%; overflow-x:hidden; }
-    .scroll-container { width:100%; }
-    .image-section{
-      width:100vw;
-      min-height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
+    /* ===== RESET ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    .image-section img{
-      width:100%;
-      height:auto;
-      display:block;
+
+    /* ===== PAGE BASE ===== */
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      overflow-x: hidden;
+    }
+
+    /* ===== SCROLL STRUCTURE ===== */
+    main {
+      width: 100%;
+      background: #ffffff;
+    }
+
+    section {
+      width: 100vw;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #ffffff;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
     }
   </style>
 </head>
+
 <body>
-  <main class="scroll-container">
-    <section class="image-section"><img src="./WEBSITE-13.png" alt="sequence 1" /></section>
-    <section class="image-section"><img src="./WEBSITE-14.png" alt="sequence 2" /></section>
-    <section class="image-section"><img src="./WEBSITE-15.png" alt="sequence 3" /></section>
-    <section class="image-section"><img src="./WEBSITE-16.png" alt="sequence 4" /></section>
-    <section class="image-section"><img src="./WEBSITE-17.png" alt="sequence 5" /></section>
+
+  <main>
+    <section>
+      <img src="WEBSITE-13.png" alt="sequence 1">
+    </section>
+
+    <section>
+      <img src="WEBSITE-14.png" alt="sequence 2">
+    </section>
+
+    <section>
+      <img src="WEBSITE-15.png" alt="sequence 3">
+    </section>
+
+    <section>
+      <img src="WEBSITE-16.png" alt="sequence 4">
+    </section>
+
+    <section>
+      <img src="WEBSITE-17.png" alt="sequence 5">
+    </section>
   </main>
+
 </body>
 </html>
