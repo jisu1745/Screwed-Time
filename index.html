@@ -296,6 +296,7 @@
             justify-content: center;
             opacity: 0;
             transition: opacity 0.5s ease;
+            overflow: hidden;
         }
 
         .overlay-modal.active {
@@ -308,17 +309,40 @@
             width: 100vw;
             height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        /* 모달 스크롤바 스타일 */
+        .modal-content::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        .modal-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background-color: #c5fff4;
+            border-radius: 6px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background-color: #a8e6d9;
         }
 
         .modal-image {
             width: 100vw;
             height: 100vh;
             object-fit: cover;
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
+            z-index: 2001;
+            pointer-events: none;
         }
 
         .overlay-modal.active .modal-image {
@@ -335,31 +359,63 @@
             }
         }
 
+        /* 모달 첫 번째 섹션 - WEBSITE.png */
+        .modal-first-section {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2002;
+        }
+
         .modal-logo {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             width: 80%;
             max-width: 1000px;
             height: auto;
-            z-index: 10;
-            pointer-events: none;
-        }
-
-        .overlay-modal.active .modal-logo {
             opacity: 0;
             animation: fadeInLogo 1s ease 0.5s forwards;
+        }
+
+        /* 모달 스크롤 컨텐츠 */
+        .modal-scroll-content {
+            position: relative;
+            width: 100%;
+            z-index: 2002;
+        }
+
+        /* 스크롤 이미지 섹션 - 일반적인 세로 스크롤 레이아웃 */
+        .modal-scroll-section {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2002;
+        }
+
+        .modal-scroll-image {
+            width: 80%;
+            max-width: 1000px;
+            height: auto;
+        }
+
+        .modal-scroll-image img {
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
         @keyframes fadeInLogo {
             from {
                 opacity: 0;
-                transform: translate(-50%, -50%) scale(0.9);
+                transform: scale(0.9);
             }
             to {
                 opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
+                transform: scale(1);
             }
         }
 
@@ -439,28 +495,26 @@
 </head>
 <body>
     <div class="container">
-        <div class="background-wrapper" id="backgroundWrapper">
-            <img src="WEBSITE4.png" alt="Website Background" class="background-image" id="backgroundImage">
-            <div class="grain-overlay"></div>
-        </div>
-        
-        <!-- 고정 배경 이미지 (website2.png) -->
-        <img src="WEBSITE2.png" alt="Static Background" class="static-background" id="staticBackground">
-        
-        <!-- 메뉴 버튼들 (왼쪽 세로 일렬 배치) -->
-        <div class="menu-buttons-container">
-            <div class="menu-button-item" style="background-image: url('WEBSITE-22.png');" data-menu="menu1" title="메뉴 1"></div>
-            <div class="menu-button-item" style="background-image: url('WEBSITE-23.png');" data-menu="menu2" title="메뉴 2"></div>
-            <div class="menu-button-item" style="background-image: url('WEBSITE-24.png');" data-menu="menu3" title="메뉴 3"></div>
-            <div class="menu-button-item" style="background-image: url('WEBSITE-25.png');" data-menu="menu4" title="메뉴 4"></div>
-            <div class="menu-button-item" style="background-image: url('WEBSITE-26.png');" data-menu="menu5" title="메뉴 5"></div>
-            <div class="menu-button-item" style="background-image: url('WEBSITE-27.png');" data-menu="menu6" title="메뉴 6"></div>
-            <div class="menu-button-item" style="background-image: url('WEBSITE-28.png');" data-menu="menu7" title="메뉴 7"></div>
-        </div>
-
-        <!-- 오른쪽 상단 메뉴 버튼 (website-29.png 기반) -->
-        <div class="right-menu-container">
-            <div class="right-menu-item" style="background-image: url('WEBSITE-29.png');" data-menu="right-menu1" title="오른쪽 메뉴 1"></div>
+        <!-- 메인 섹션 (첫 화면) -->
+        <div class="main-section">
+            <div class="background-wrapper" id="backgroundWrapper">
+                <img src="WEBSITE4.png" alt="Website Background" class="background-image" id="backgroundImage">
+                <div class="grain-overlay"></div>
+            </div>
+            
+            <!-- 고정 배경 이미지 (website2.png) -->
+            <img src="WEBSITE2.png" alt="Static Background" class="static-background" id="staticBackground">
+            
+            <!-- 메뉴 버튼들 (왼쪽 세로 일렬 배치) -->
+            <div class="menu-buttons-container">
+                <div class="menu-button-item" style="background-image: url('WEBSITE-22.png');" data-menu="menu1" title="메뉴 1"></div>
+                <div class="menu-button-item" style="background-image: url('WEBSITE-27.png');" data-menu="menu6" title="메뉴 6"></div>
+                <div class="menu-button-item" style="background-image: url('WEBSITE-24.png');" data-menu="menu3" title="메뉴 3"></div>
+                <div class="menu-button-item" style="background-image: url('WEBSITE-25.png');" data-menu="menu4" title="메뉴 4"></div>
+                <div class="menu-button-item" style="background-image: url('WEBSITE-26.png');" data-menu="menu5" title="메뉴 5"></div>
+                <div class="menu-button-item" style="background-image: url('WEBSITE-23.png');" data-menu="menu2" title="메뉴 2"></div>
+                <div class="menu-button-item" style="background-image: url('WEBSITE-28.png');" data-menu="menu7" title="메뉴 7"></div>
+            </div>
         </div>
     </div>
 
@@ -469,7 +523,21 @@
         <div class="modal-content">
             <button class="close-button" id="closeModal" aria-label="닫기"></button>
             <img src="WEBSITE3.png" alt="Modal Image" class="modal-image" id="modalImage">
-            <img src="WEBSITE.png" alt="Overlay Logo" class="modal-logo" id="modalLogo">
+            
+            <!-- 첫 번째 섹션 - WEBSITE.png -->
+            <div class="modal-first-section">
+                <img src="WEBSITE.png" alt="Overlay Logo" class="modal-logo" id="modalLogo">
+            </div>
+            
+            <!-- 스크롤 컨텐츠 -->
+            <div class="modal-scroll-content" id="modalScrollContent">
+                <!-- 스크롤 섹션 - WEBSITE-30.png -->
+                <div class="modal-scroll-section" id="scrollSection30">
+                    <div class="modal-scroll-image">
+                        <img src="WEBSITE-30.png" alt="Scroll Image 30">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -477,7 +545,6 @@
         const backgroundImage = document.getElementById('backgroundImage');
         const backgroundWrapper = document.getElementById('backgroundWrapper');
         const menuButtons = document.querySelectorAll('.menu-button-item');
-        const rightMenuButtons = document.querySelectorAll('.right-menu-item');
 
         // 드래그 및 확대/축소 변수
         let isDragging = false;
@@ -650,6 +717,12 @@
             `;
         }
 
+        // 오버레이 모달 요소
+        const overlayModal = document.getElementById('overlayModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalLogo = document.getElementById('modalLogo');
+
         // 각 메뉴 버튼 클릭 이벤트
         menuButtons.forEach((button, index) => {
             button.addEventListener('click', function() {
@@ -660,50 +733,43 @@
                 if (index === 0) {
                     window.location.href = 'index.html';
                 }
+                // 메뉴6 - 오버레이 모달 표시 (오른쪽 메뉴 1 기능 이동)
+                if (index === 1) {
+                    overlayModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                    // 모달 열릴 때 스크롤 위치 초기화
+                    if (modalContent) {
+                        modalContent.scrollTop = 0;
+                    }
+                }
                 // 여기에 다른 메뉴 버튼의 동작을 추가할 수 있습니다
             });
         });
 
-        // 오버레이 모달 요소
-        const overlayModal = document.getElementById('overlayModal');
-        const closeModal = document.getElementById('closeModal');
-        const modalImage = document.getElementById('modalImage');
-        const modalLogo = document.getElementById('modalLogo');
-
-        // 오른쪽 메뉴 버튼 클릭 이벤트
-        rightMenuButtons.forEach((button, index) => {
-            button.addEventListener('click', function() {
-                const menuId = this.getAttribute('data-menu');
-                console.log(`오른쪽 메뉴 ${index + 1} 클릭됨: ${menuId}`);
-                
-                // 오른쪽 메뉴1 - 오버레이 모달 표시
-                if (index === 0) {
-                    overlayModal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                }
-                // 여기에 다른 오른쪽 메뉴 버튼의 동작을 추가할 수 있습니다
-            });
-        });
-
-        // 모달 닫기 버튼
-        closeModal.addEventListener('click', function() {
+        // 모달 닫기 함수
+        function closeModalFunction() {
             overlayModal.classList.remove('active');
             document.body.style.overflow = '';
-        });
+            // 모달 닫힐 때 스크롤 위치 초기화
+            if (modalContent) {
+                modalContent.scrollTop = 0;
+            }
+        }
+
+        // 모달 닫기 버튼
+        closeModal.addEventListener('click', closeModalFunction);
 
         // 모달 배경 클릭 시 닫기
         overlayModal.addEventListener('click', function(e) {
             if (e.target === overlayModal) {
-                overlayModal.classList.remove('active');
-                document.body.style.overflow = '';
+                closeModalFunction();
             }
         });
 
         // ESC 키로 모달 닫기
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && overlayModal.classList.contains('active')) {
-                overlayModal.classList.remove('active');
-                document.body.style.overflow = '';
+                closeModalFunction();
             }
         });
 
@@ -722,6 +788,20 @@
                 this.src = 'website.png';
             }
         });
+
+        // 모달 스크롤 섹션 요소
+        const scrollSection30 = document.getElementById('scrollSection30');
+
+        // 모달 스크롤 이미지 로드 실패 시 처리
+        const scrollImage30 = scrollSection30?.querySelector('img');
+        if (scrollImage30) {
+            scrollImage30.addEventListener('error', function() {
+                console.warn('스크롤 이미지 로드 실패, 대체 경로 시도:', this.src);
+                if (this.src.includes('WEBSITE-30.png')) {
+                    this.src = 'website-30.png';
+                }
+            });
+        }
 
         // 이미지 로드 실패 시 처리 (대소문자 대체 시도)
         backgroundImage.addEventListener('error', function() {
@@ -769,6 +849,7 @@
                 console.log('배경 이미지 로드 완료:', img.naturalWidth, 'x', img.naturalHeight);
             }
         });
+
     </script>
 </body>
 </html>
