@@ -408,6 +408,33 @@
             display: block;
         }
 
+        /* 순차적으로 나타나는 이미지 섹션 - WEBSITE-30.png 위에 겹쳐서 표시 */
+        .modal-sequential-section {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2003;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .modal-sequential-section.visible {
+            opacity: 1;
+        }
+
+        .modal-sequential-image {
+            width: 100vw;
+            height: 100vh;
+            object-fit: contain;
+            display: block;
+        }
+
         @keyframes fadeInLogo {
             from {
                 opacity: 0;
@@ -536,6 +563,52 @@
                     <div class="modal-scroll-image">
                         <img src="WEBSITE-30.png" alt="Scroll Image 30">
                     </div>
+                </div>
+                <!-- 순차적으로 나타나는 이미지 섹션들 -->
+                <div class="modal-sequential-section" id="sequentialSection1">
+                    <img src="WEBSITE-35-34.png" alt="Sequential Image 1" class="modal-sequential-image">
+                </div>
+                <div class="modal-sequential-section" id="sequentialSection2">
+                    <img src="WEBSITE-35-35.png" alt="Sequential Image 2" class="modal-sequential-image">
+                </div>
+                <div class="modal-sequential-section" id="sequentialSection3">
+                    <img src="WEBSITE-35-37.png" alt="Sequential Image 3" class="modal-sequential-image">
+                </div>
+                <div class="modal-sequential-section" id="sequentialSection4">
+                    <img src="WEBSITE-35-39.png" alt="Sequential Image 4" class="modal-sequential-image">
+                </div>
+                <div class="modal-sequential-section" id="sequentialSection5">
+                    <img src="WEBSITE-35-40.png" alt="Sequential Image 5" class="modal-sequential-image">
+                </div>
+                <div class="modal-sequential-section" id="sequentialSection6">
+                    <img src="WEBSITE-35-41.png" alt="Sequential Image 6" class="modal-sequential-image">
+                </div>
+                <div class="modal-sequential-section" id="sequentialSection7">
+                    <img src="WEBSITE-35-43.png" alt="Sequential Image 7" class="modal-sequential-image">
+                </div>
+                <div class="modal-sequential-section" id="sequentialSection8">
+                    <img src="WEBSITE-35-44.png" alt="Sequential Image 8" class="modal-sequential-image">
+                </div>
+                <div class="modal-sequential-section" id="sequentialSection9">
+                    <img src="WEBSITE-35-45.png" alt="Sequential Image 9" class="modal-sequential-image">
+                </div>
+                <div class="modal-sequential-section" id="sequentialSection10">
+                    <img src="WEBSITE-35-47.png" alt="Sequential Image 10" class="modal-sequential-image">
+                </div>
+                <div class="modal-sequential-section" id="sequentialSection11">
+                    <img src="WEBSITE-35-48.png" alt="Sequential Image 11" class="modal-sequential-image">
+                </div>
+                <div class="modal-sequential-section" id="sequentialSection12">
+                    <img src="WEBSITE-50.png" alt="Sequential Image 12" class="modal-sequential-image">
+                </div>
+                <div class="modal-sequential-section" id="sequentialSection13">
+                    <img src="WEBSITE-51.png" alt="Sequential Image 13" class="modal-sequential-image">
+                </div>
+                <div class="modal-sequential-section" id="sequentialSection14">
+                    <img src="WEBSITE-52.png" alt="Sequential Image 14" class="modal-sequential-image">
+                </div>
+                <div class="modal-sequential-section" id="sequentialSection15">
+                    <img src="WEBSITE-53.png" alt="Sequential Image 15" class="modal-sequential-image">
                 </div>
             </div>
         </div>
@@ -722,6 +795,21 @@
         const closeModal = document.getElementById('closeModal');
         const modalImage = document.getElementById('modalImage');
         const modalLogo = document.getElementById('modalLogo');
+        const modalContent = document.querySelector('.modal-content');
+        
+        // 순차적으로 나타날 이미지 섹션들
+        const sequentialSections = [];
+        for (let i = 1; i <= 15; i++) {
+            const section = document.getElementById(`sequentialSection${i}`);
+            if (section) {
+                sequentialSections.push(section);
+            }
+        }
+
+        // 모달 스크롤 관련 변수
+        let hasPassedSection30 = false;
+        let lastVisibleIndex = -1;
+        let animationTimeouts = [];
 
         // 각 메뉴 버튼 클릭 이벤트
         menuButtons.forEach((button, index) => {
@@ -737,10 +825,18 @@
                 if (index === 1) {
                     overlayModal.classList.add('active');
                     document.body.style.overflow = 'hidden';
-                    // 모달 열릴 때 스크롤 위치 초기화
+                    // 모달 열릴 때 스크롤 위치 초기화 및 순차 이미지 숨김
                     if (modalContent) {
                         modalContent.scrollTop = 0;
                     }
+                    // 순차 이미지들 초기화
+                    sequentialSections.forEach(section => {
+                        section.classList.remove('visible');
+                    });
+                    hasPassedSection30 = false;
+                    lastVisibleIndex = -1;
+                    animationTimeouts.forEach(timeout => clearTimeout(timeout));
+                    animationTimeouts = [];
                 }
                 // 여기에 다른 메뉴 버튼의 동작을 추가할 수 있습니다
             });
@@ -750,10 +846,18 @@
         function closeModalFunction() {
             overlayModal.classList.remove('active');
             document.body.style.overflow = '';
-            // 모달 닫힐 때 스크롤 위치 초기화
+            // 모달 닫힐 때 스크롤 위치 초기화 및 순차 이미지 숨김
             if (modalContent) {
                 modalContent.scrollTop = 0;
             }
+            // 순차 이미지들 초기화
+            sequentialSections.forEach(section => {
+                section.classList.remove('visible');
+            });
+            hasPassedSection30 = false;
+            lastVisibleIndex = -1;
+            animationTimeouts.forEach(timeout => clearTimeout(timeout));
+            animationTimeouts = [];
         }
 
         // 모달 닫기 버튼
@@ -792,6 +896,43 @@
         // 모달 스크롤 섹션 요소
         const scrollSection30 = document.getElementById('scrollSection30');
 
+        if (modalContent && scrollSection30) {
+            modalContent.addEventListener('scroll', function() {
+                const scrollTop = modalContent.scrollTop;
+                const viewportHeight = modalContent.clientHeight;
+                const section30Top = scrollSection30.offsetTop;
+                const section30Bottom = section30Top + scrollSection30.offsetHeight;
+
+                // WEBSITE-30.png 섹션이 뷰포트에 보이는지 확인
+                const isSection30Visible = scrollTop < section30Bottom && scrollTop + viewportHeight > section30Top;
+
+                if (isSection30Visible && !hasPassedSection30) {
+                    hasPassedSection30 = true;
+                    // 기존 타이머 정리
+                    animationTimeouts.forEach(timeout => clearTimeout(timeout));
+                    animationTimeouts = [];
+                    // 0.5초 간격으로 순차적으로 이미지 표시
+                    sequentialSections.forEach((section, index) => {
+                        const timeout = setTimeout(() => {
+                            section.classList.add('visible');
+                            lastVisibleIndex = index;
+                        }, index * 500); // 0.5초 간격
+                        animationTimeouts.push(timeout);
+                    });
+                } else if (!isSection30Visible && hasPassedSection30) {
+                    // WEBSITE-30.png 섹션이 뷰포트에서 벗어나면 이미지들 숨김
+                    hasPassedSection30 = false;
+                    sequentialSections.forEach(section => {
+                        section.classList.remove('visible');
+                    });
+                    // 모든 타이머 정리
+                    animationTimeouts.forEach(timeout => clearTimeout(timeout));
+                    animationTimeouts = [];
+                    lastVisibleIndex = -1;
+                }
+            });
+        }
+
         // 모달 스크롤 이미지 로드 실패 시 처리
         const scrollImage30 = scrollSection30?.querySelector('img');
         if (scrollImage30) {
@@ -802,6 +943,22 @@
                 }
             });
         }
+
+        // 순차 이미지들 로드 실패 시 처리
+        sequentialSections.forEach((section, index) => {
+            const img = section.querySelector('img');
+            if (img) {
+                img.addEventListener('error', function() {
+                    console.warn(`순차 이미지 ${index + 1} 로드 실패, 대체 경로 시도:`, this.src);
+                    const src = this.src;
+                    if (src.includes('WEBSITE-35-')) {
+                        this.src = src.replace('WEBSITE-35-', 'website-35-');
+                    } else if (src.includes('WEBSITE-')) {
+                        this.src = src.replace('WEBSITE-', 'website-');
+                    }
+                });
+            }
+        });
 
         // 이미지 로드 실패 시 처리 (대소문자 대체 시도)
         backgroundImage.addEventListener('error', function() {
