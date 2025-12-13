@@ -447,7 +447,7 @@
         }
 
         .close-button {
-            position: absolute;
+            position: fixed;
             top: 20px;
             right: 20px;
             width: 70px;
@@ -458,7 +458,7 @@
             background-repeat: no-repeat;
             background-position: center;
             cursor: pointer;
-            z-index: 2001;
+            z-index: 10000;
             transition: transform 0.3s ease;
             border: none;
             padding: 0;
@@ -567,9 +567,6 @@
                 <!-- 순차적으로 나타나는 이미지 섹션들 -->
                 <div class="modal-sequential-section" id="sequentialSection1">
                     <img src="WEBSITE-35-34.png" alt="Sequential Image 1" class="modal-sequential-image">
-                </div>
-                <div class="modal-sequential-section" id="sequentialSection2">
-                    <img src="WEBSITE-35-35.png" alt="Sequential Image 2" class="modal-sequential-image">
                 </div>
                 <div class="modal-sequential-section" id="sequentialSection3">
                     <img src="WEBSITE-35-37.png" alt="Sequential Image 3" class="modal-sequential-image">
@@ -797,14 +794,15 @@
         const modalLogo = document.getElementById('modalLogo');
         const modalContent = document.querySelector('.modal-content');
         
-        // 순차적으로 나타날 이미지 섹션들
+        // 순차적으로 나타날 이미지 섹션들 (sequentialSection2 제외)
         const sequentialSections = [];
-        for (let i = 1; i <= 15; i++) {
-            const section = document.getElementById(`sequentialSection${i}`);
+        const sectionIds = [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+        sectionIds.forEach(id => {
+            const section = document.getElementById(`sequentialSection${id}`);
             if (section) {
                 sequentialSections.push(section);
             }
-        }
+        });
 
         // 모달 스크롤 관련 변수
         let hasPassedSection30 = false;
@@ -837,6 +835,10 @@
                     lastVisibleIndex = -1;
                     animationTimeouts.forEach(timeout => clearTimeout(timeout));
                     animationTimeouts = [];
+                }
+                // 메뉴3 - 새 페이지로 이동
+                if (index === 2) {
+                    window.location.href = 'page3.html';
                 }
                 // 여기에 다른 메뉴 버튼의 동작을 추가할 수 있습니다
             });
