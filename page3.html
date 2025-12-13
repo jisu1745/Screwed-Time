@@ -35,16 +35,16 @@
             display: block;
         }
 
-        /* 메뉴바 컨테이너 - 가로 배치 */
+        /* 메뉴바 컨테이너 - 가로 배치, 상단 중앙 정렬 */
         .menu-bar-container {
             position: absolute;
             top: 0;
-            left: 0;
-            width: 100%;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
             flex-direction: row;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: center;
             gap: 15px;
             padding: 20px;
             z-index: 1001;
@@ -64,36 +64,6 @@
 
         .menu-bar-item:hover {
             transform: scale(1.2);
-        }
-
-        /* 중앙 버튼 컨테이너 */
-        .center-buttons-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            z-index: 1002;
-            pointer-events: none;
-        }
-
-        .center-button {
-            width: 80px;
-            height: 80px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            cursor: pointer;
-            pointer-events: auto;
-            transition: transform 0.3s ease;
-        }
-
-        .center-button:hover {
-            transform: scale(1.15);
         }
 
         /* 오디오 요소 (숨김) */
@@ -122,6 +92,52 @@
             height: auto;
             display: block;
             object-fit: cover;
+        }
+
+        /* WEBSITE6.png 섹션 - 스크롤 가능 */
+        #section6 {
+            position: relative;
+            width: 100vw;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #section6 img {
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+        }
+
+        /* WEBSITE6.png 위 버튼 컨테이너 - WEBSITE6.png 중앙에 배치 */
+        .section6-buttons-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .section6-button {
+            width: 80px;
+            height: 80px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .section6-button:hover {
+            transform: scale(1.15);
         }
 
         /* 반응형 */
@@ -155,7 +171,7 @@
     <div class="fixed-header">
         <img src="WEBSITE5.png" alt="Header" class="header-image" id="headerImage">
         
-        <!-- 메뉴바 (가로 배치) -->
+        <!-- 메뉴바 (가로 배치, 상단 중앙 정렬) -->
         <div class="menu-bar-container">
             <div class="menu-bar-item" style="background-image: url('WEBSITE-22.png');" data-menu="menu1" title="메뉴 1"></div>
             <div class="menu-bar-item" style="background-image: url('WEBSITE-27.png');" data-menu="menu6" title="메뉴 6"></div>
@@ -165,14 +181,6 @@
             <div class="menu-bar-item" style="background-image: url('WEBSITE-23.png');" data-menu="menu2" title="메뉴 2"></div>
             <div class="menu-bar-item" style="background-image: url('WEBSITE-28.png');" data-menu="menu7" title="메뉴 7"></div>
         </div>
-
-        <!-- 중앙 버튼 컨테이너 -->
-        <div class="center-buttons-container">
-            <div class="center-button" id="button7" style="background-image: url('WEBSITE-7.png');" title="재생"></div>
-            <div class="center-button" id="button8" style="background-image: url('WEBSITE-8.png');" title="재생/일시정지"></div>
-            <div class="center-button" id="button9" style="background-image: url('WEBSITE-9.png');" title="정지"></div>
-            <div class="center-button" id="button10" style="background-image: url('WEBSITE-10.png');" title="10초 건너뛰기"></div>
-        </div>
     </div>
 
     <!-- 오디오 플레이어 -->
@@ -180,6 +188,18 @@
 
     <!-- 메인 컨텐츠 -->
     <div class="main-content">
+        <!-- WEBSITE6.png -->
+        <div class="image-section" id="section6">
+            <img src="WEBSITE6.png" alt="Image 6" id="image6">
+            <!-- WEBSITE6.png 위 버튼들 - 중앙 가로 배치 -->
+            <div class="section6-buttons-container">
+                <div class="section6-button" id="section6Button7" style="background-image: url('WEBSITE-7.png');" title="재생"></div>
+                <div class="section6-button" id="section6Button8" style="background-image: url('WEBSITE-8.png');" title="재생/일시정지"></div>
+                <div class="section6-button" id="section6Button9" style="background-image: url('WEBSITE-9.png');" title="정지"></div>
+                <div class="section6-button" id="section6Button10" style="background-image: url('WEBSITE-10.png');" title="10초 건너뛰기"></div>
+            </div>
+        </div>
+
         <!-- WEBSITE-11.png -->
         <div class="image-section" id="section11">
             <img src="WEBSITE-11.png" alt="Image 11" id="image11">
@@ -196,10 +216,6 @@
         const headerImage = document.getElementById('headerImage');
         const mainContent = document.querySelector('.main-content');
 
-        headerImage.addEventListener('load', function() {
-            const headerHeight = this.offsetHeight;
-            mainContent.style.paddingTop = headerHeight + 'px';
-        });
 
         // 이미지 로드 실패 시 처리
         headerImage.addEventListener('error', function() {
@@ -214,6 +230,14 @@
             console.warn('이미지 11 로드 실패, 대체 경로 시도:', this.src);
             if (this.src.includes('WEBSITE-11.png')) {
                 this.src = 'website-11.png';
+            }
+        });
+
+        const image6 = document.getElementById('image6');
+        image6.addEventListener('error', function() {
+            console.warn('이미지 6 로드 실패, 대체 경로 시도:', this.src);
+            if (this.src.includes('WEBSITE6.png')) {
+                this.src = 'website6.png';
             }
         });
 
@@ -243,47 +267,71 @@
 
         // 오디오 플레이어
         const audioPlayer = document.getElementById('audioPlayer');
-        const button7 = document.getElementById('button7');
-        const button8 = document.getElementById('button8');
-        const button9 = document.getElementById('button9');
-        const button10 = document.getElementById('button10');
+        
+        // WEBSITE6.png 섹션의 버튼들
+        const section6Button7 = document.getElementById('section6Button7');
+        const section6Button8 = document.getElementById('section6Button8');
+        const section6Button9 = document.getElementById('section6Button9');
+        const section6Button10 = document.getElementById('section6Button10');
 
-        // WEBSITE-8.png 버튼 클릭 - 재생 및 이미지 변경
-        button8.addEventListener('click', function() {
+        // 버튼 이미지 업데이트 함수
+        function updateButton8Images(isPlaying) {
+            const imageUrl = isPlaying ? "url('WEBSITE-8-1.png')" : "url('WEBSITE-8.png')";
+            section6Button8.style.backgroundImage = imageUrl;
+        }
+
+        // WEBSITE-8.png 버튼 클릭 - 재생 및 이미지 변경 (WEBSITE-8.png → WEBSITE-8-1.png)
+        section6Button8.addEventListener('click', function() {
             if (audioPlayer.paused) {
                 // 재생 시작
                 audioPlayer.play().catch(error => {
                     console.error('오디오 재생 실패:', error);
                 });
                 // WEBSITE-8.png → WEBSITE-8-1.png로 변경
-                this.style.backgroundImage = "url('WEBSITE-8-1.png')";
+                updateButton8Images(true);
             }
         });
 
-        // WEBSITE-9.png 버튼 클릭 - 정지 및 이미지 복원
-        button9.addEventListener('click', function() {
+        // WEBSITE-9.png 버튼 클릭 - 정지 및 이미지 복원 (WEBSITE-8-1.png → WEBSITE-8.png)
+        section6Button9.addEventListener('click', function() {
             // 재생 정지
             audioPlayer.pause();
             audioPlayer.currentTime = 0;
             // WEBSITE-8-1.png → WEBSITE-8.png로 복원
-            button8.style.backgroundImage = "url('WEBSITE-8.png')";
+            updateButton8Images(false);
         });
 
         // WEBSITE-7.png 버튼 클릭 - 처음부터 재생
-        button7.addEventListener('click', function() {
+        section6Button7.addEventListener('click', function() {
+            // 음악을 처음부터 재생
             audioPlayer.currentTime = 0;
             audioPlayer.play().catch(error => {
                 console.error('오디오 재생 실패:', error);
             });
-            // WEBSITE-8.png → WEBSITE-8-1.png로 변경 (재생 중 상태)
-            button8.style.backgroundImage = "url('WEBSITE-8-1.png')";
+            // 재생 중이므로 WEBSITE-8.png → WEBSITE-8-1.png로 변경
+            updateButton8Images(true);
         });
 
         // WEBSITE-10.png 버튼 클릭 - 10초 건너뛰기
-        button10.addEventListener('click', function() {
+        section6Button10.addEventListener('click', function() {
             if (!audioPlayer.paused) {
-                audioPlayer.currentTime = Math.min(audioPlayer.currentTime + 10, audioPlayer.duration);
+                // 음악이 재생 중일 때만 10초 건너뛰기
+                const newTime = Math.min(audioPlayer.currentTime + 10, audioPlayer.duration);
+                audioPlayer.currentTime = newTime;
             }
+        });
+
+        // 오디오 이벤트 리스너 - 재생 상태 동기화
+        audioPlayer.addEventListener('play', function() {
+            updateButton8Images(true);
+        });
+
+        audioPlayer.addEventListener('pause', function() {
+            updateButton8Images(false);
+        });
+
+        audioPlayer.addEventListener('ended', function() {
+            updateButton8Images(false);
         });
 
         // 오디오 로드 실패 시 처리
