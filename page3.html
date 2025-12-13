@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page 3</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #e0e0e0 0%, #d0d0d0 100%);
+        }
+
+        /* 상단 고정 헤더 */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: transparent;
+        }
+
+        .header-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* 메뉴바 컨테이너 - 가로 배치 */
+        .menu-bar-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 15px;
+            padding: 20px;
+            z-index: 1001;
+            pointer-events: none;
+        }
+
+        .menu-bar-item {
+            width: 60px;
+            height: 60px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-bar-item:hover {
+            transform: scale(1.2);
+        }
+
+        /* 중앙 버튼 컨테이너 */
+        .center-buttons-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            z-index: 1002;
+            pointer-events: none;
+        }
+
+        .center-button {
+            width: 80px;
+            height: 80px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .center-button:hover {
+            transform: scale(1.15);
+        }
+
+        /* 오디오 요소 (숨김) */
+        #audioPlayer {
+            display: none;
+        }
+
+        /* 메인 컨텐츠 */
+        .main-content {
+            position: relative;
+            width: 100%;
+            padding-top: 0;
+        }
+
+        /* 이미지 섹션 */
+        .image-section {
+            position: relative;
+            width: 100vw;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .image-section img {
+            width: 100vw;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .menu-bar-item {
+                width: 45px;
+                height: 45px;
+            }
+
+            .menu-bar-container {
+                gap: 10px;
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .menu-bar-item {
+                width: 35px;
+                height: 35px;
+            }
+
+            .menu-bar-container {
+                gap: 8px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 상단 고정 헤더 -->
+    <div class="fixed-header">
+        <img src="WEBSITE5.png" alt="Header" class="header-image" id="headerImage">
+        
+        <!-- 메뉴바 (가로 배치) -->
+        <div class="menu-bar-container">
+            <div class="menu-bar-item" style="background-image: url('WEBSITE-22.png');" data-menu="menu1" title="메뉴 1"></div>
+            <div class="menu-bar-item" style="background-image: url('WEBSITE-27.png');" data-menu="menu6" title="메뉴 6"></div>
+            <div class="menu-bar-item" style="background-image: url('WEBSITE-24.png');" data-menu="menu3" title="메뉴 3"></div>
+            <div class="menu-bar-item" style="background-image: url('WEBSITE-25.png');" data-menu="menu4" title="메뉴 4"></div>
+            <div class="menu-bar-item" style="background-image: url('WEBSITE-26.png');" data-menu="menu5" title="메뉴 5"></div>
+            <div class="menu-bar-item" style="background-image: url('WEBSITE-23.png');" data-menu="menu2" title="메뉴 2"></div>
+            <div class="menu-bar-item" style="background-image: url('WEBSITE-28.png');" data-menu="menu7" title="메뉴 7"></div>
+        </div>
+
+        <!-- 중앙 버튼 컨테이너 -->
+        <div class="center-buttons-container">
+            <div class="center-button" id="button7" style="background-image: url('WEBSITE-7.png');" title="재생"></div>
+            <div class="center-button" id="button8" style="background-image: url('WEBSITE-8.png');" title="재생/일시정지"></div>
+            <div class="center-button" id="button9" style="background-image: url('WEBSITE-9.png');" title="정지"></div>
+            <div class="center-button" id="button10" style="background-image: url('WEBSITE-10.png');" title="10초 건너뛰기"></div>
+        </div>
+    </div>
+
+    <!-- 오디오 플레이어 -->
+    <audio id="audioPlayer" src="screwed_time.mp3"></audio>
+
+    <!-- 메인 컨텐츠 -->
+    <div class="main-content">
+        <!-- WEBSITE-11.png -->
+        <div class="image-section" id="section11">
+            <img src="WEBSITE-11.png" alt="Image 11" id="image11">
+        </div>
+
+        <!-- WEBSITE-12.png -->
+        <div class="image-section" id="section12">
+            <img src="WEBSITE-12.png" alt="Image 12" id="image12">
+        </div>
+    </div>
+
+    <script>
+        // 헤더 이미지 높이 계산하여 컨텐츠 패딩 조정
+        const headerImage = document.getElementById('headerImage');
+        const mainContent = document.querySelector('.main-content');
+
+        headerImage.addEventListener('load', function() {
+            const headerHeight = this.offsetHeight;
+            mainContent.style.paddingTop = headerHeight + 'px';
+        });
+
+        // 이미지 로드 실패 시 처리
+        headerImage.addEventListener('error', function() {
+            console.warn('헤더 이미지 로드 실패, 대체 경로 시도:', this.src);
+            if (this.src.includes('WEBSITE5.png')) {
+                this.src = 'website5.png';
+            }
+        });
+
+        const image11 = document.getElementById('image11');
+        image11.addEventListener('error', function() {
+            console.warn('이미지 11 로드 실패, 대체 경로 시도:', this.src);
+            if (this.src.includes('WEBSITE-11.png')) {
+                this.src = 'website-11.png';
+            }
+        });
+
+        const image12 = document.getElementById('image12');
+        image12.addEventListener('error', function() {
+            console.warn('이미지 12 로드 실패, 대체 경로 시도:', this.src);
+            if (this.src.includes('WEBSITE-12.png')) {
+                this.src = 'website-12.png';
+            }
+        });
+
+        // 메뉴바 클릭 이벤트
+        const menuBarItems = document.querySelectorAll('.menu-bar-item');
+        menuBarItems.forEach((item, index) => {
+            item.addEventListener('click', function() {
+                const menuId = this.getAttribute('data-menu');
+                console.log(`메뉴바 ${index + 1} 클릭됨: ${menuId}`);
+                
+                // 메뉴1 (홈 버튼) - 첫 페이지로 이동
+                if (index === 0) {
+                    window.location.href = 'index.html';
+                }
+                // 메뉴3 - 현재 페이지 (아무 동작 없음)
+                // 다른 메뉴들은 필요시 추가
+            });
+        });
+
+        // 오디오 플레이어
+        const audioPlayer = document.getElementById('audioPlayer');
+        const button7 = document.getElementById('button7');
+        const button8 = document.getElementById('button8');
+        const button9 = document.getElementById('button9');
+        const button10 = document.getElementById('button10');
+
+        // WEBSITE-8.png 버튼 클릭 - 재생 및 이미지 변경
+        button8.addEventListener('click', function() {
+            if (audioPlayer.paused) {
+                // 재생 시작
+                audioPlayer.play().catch(error => {
+                    console.error('오디오 재생 실패:', error);
+                });
+                // WEBSITE-8.png → WEBSITE-8-1.png로 변경
+                this.style.backgroundImage = "url('WEBSITE-8-1.png')";
+            }
+        });
+
+        // WEBSITE-9.png 버튼 클릭 - 정지 및 이미지 복원
+        button9.addEventListener('click', function() {
+            // 재생 정지
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;
+            // WEBSITE-8-1.png → WEBSITE-8.png로 복원
+            button8.style.backgroundImage = "url('WEBSITE-8.png')";
+        });
+
+        // WEBSITE-7.png 버튼 클릭 - 처음부터 재생
+        button7.addEventListener('click', function() {
+            audioPlayer.currentTime = 0;
+            audioPlayer.play().catch(error => {
+                console.error('오디오 재생 실패:', error);
+            });
+            // WEBSITE-8.png → WEBSITE-8-1.png로 변경 (재생 중 상태)
+            button8.style.backgroundImage = "url('WEBSITE-8-1.png')";
+        });
+
+        // WEBSITE-10.png 버튼 클릭 - 10초 건너뛰기
+        button10.addEventListener('click', function() {
+            if (!audioPlayer.paused) {
+                audioPlayer.currentTime = Math.min(audioPlayer.currentTime + 10, audioPlayer.duration);
+            }
+        });
+
+        // 오디오 로드 실패 시 처리
+        audioPlayer.addEventListener('error', function() {
+            console.warn('오디오 파일 로드 실패:', this.src);
+        });
+    </script>
+</body>
+</html>
+
